@@ -84,12 +84,20 @@ export default function OfferDetails({ order, onBack, onAccepted }: Props) {
           <div>
             <p className="text-gray-400 text-xs font-medium tracking-wide uppercase mb-1">Total Estimated Payable</p>
             <p className="text-[#2ECC71] text-4xl font-black">{formatPeso(total)}</p>
-            <p className="text-gray-400 text-xs mt-1.5">≈ ₱{perKm}/km</p>
+            <div className="flex items-center gap-1.5 mt-1.5">
+          <Clock size={12} className="text-[#2ECC71]" />
+          <span className="text-[#2ECC71] text-xs font-bold">Est. {Math.max(15, Math.round(order.distance * 4))} mins</span>
+        </div>
+        <p className="text-gray-400 text-xs mt-1">≈ ₱{perKm}/km</p>
           </div>
           <div className="bg-white border border-gray-100 rounded-xl px-4 py-2 text-center">
-            <p className="text-gray-400 text-xs font-medium">Distance</p>
+            <p className="text-gray-400 text-xs font-medium">Total Distance</p>
             <p className="text-[#2C3E50] text-2xl font-bold">{order.distance}</p>
             <p className="text-gray-400 text-xs">km</p>
+            <div className="mt-1.5 pt-1.5 border-t border-gray-50 space-y-0.5">
+              <p className="text-gray-500 text-[10px]">{(order.distance * 0.3).toFixed(1)} km → Store</p>
+              <p className="text-gray-500 text-[10px]">{(order.distance * 0.7).toFixed(1)} km → Customer</p>
+            </div>
           </div>
         </div>
 

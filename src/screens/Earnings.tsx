@@ -1,8 +1,10 @@
 import { useState, useEffect, useCallback } from 'react';
 import {
   Wallet, TrendingUp, Package, ChevronRight, Download, Calendar,
+  Smartphone, ArrowDownToLine,
 } from 'lucide-react';
 import { supabase, type Order, formatPeso, totalPayable } from '@/lib/supabase';
+import Toast from '@/components/Toast';
 
 const PLATFORM_FEE_RATE = 0.15;
 
@@ -27,6 +29,7 @@ export default function Earnings() {
   const [completedDeliveries, setCompletedDeliveries] = useState(0);
   const [recentOrders, setRecentOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
+  const [toastMsg, setToastMsg] = useState<string | null>(null);
 
   const load = useCallback(async () => {
     const now = new Date();
@@ -70,8 +73,19 @@ export default function Earnings() {
   return (
     <div className="flex flex-col h-full bg-[#F8F9FA]">
       <div className="bg-white px-5 pt-12 pb-5 flex-shrink-0 border-b border-gray-100">
-        <h1 className="text-[#2C3E50] text-2xl font-bold">Earnings</h1>
-        <p className="text-gray-400 text-sm mt-0.5">Track your delivery income</p>
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-[#2C3E50] text-2xl font-bold">Earnings</h1>
+            <p className="text-gray-400 text-sm mt-0.5">Track your delivery income</p>
+          </div>
+          <button
+            onClick={() => setToastMsg(`₱${weeklyEarnings.toLocaleString()} transferred to your linked account!`)}
+            className="flex items-center gap-2 bg-[#2ECC71] text-white font-bold text-sm px-4 py-2.5 rounded-xl shadow-lg shadow-emerald-200 active:scale-95 transition-all"
+          >
+            <ArrowDownToLine size={16} />
+            Cash Out
+          </button>
+        </div>
       </div>
 
       <div className="flex-1 overflow-y-auto px-4 py-4 space-y-4">
@@ -197,6 +211,7 @@ export default function Earnings() {
           </div>
         </div>
       </div>
+      {toastMsg && <Toast message={toastMsg} onDone={() => setToastMsg(null)} />}
     </div>
   );
 }

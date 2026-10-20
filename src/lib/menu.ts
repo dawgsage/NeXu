@@ -10,6 +10,7 @@ export type MenuItem = {
   brand: string | null;
   category: string;
   created_at: string;
+  image_url: string | null;
 };
 
 export type MerchantWithItems = {

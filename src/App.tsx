@@ -1,5 +1,7 @@
 import { useState, useCallback, useEffect } from 'react';
 import OfferFeed from '@/screens/OfferFeed';
+import Cart from '@/screens/Cart';
+import Checkout from '@/screens/Checkout';
 import OfferDetails from '@/screens/OfferDetails';
 import ActiveTrip from '@/screens/ActiveTrip';
 import HistoryScreen from '@/screens/History';
@@ -13,6 +15,7 @@ import DriverDashboard from '@/screens/DriverDashboard';
 import Earnings from '@/screens/Earnings';
 import { fetchShoppingItems } from '@/lib/shopping';
 import { LanguageProvider, useLang } from '@/lib/i18n';
+import { CartProvider, useCart } from '@/lib/cart';
 import DriverBottomNav, { type DriverTab } from '@/components/DriverBottomNav';
 import CustomerBottomNav, { type CustomerTab } from '@/components/CustomerBottomNav';
 import Toast from '@/components/Toast';
@@ -23,7 +26,7 @@ type Screen =
   | 'onboarding' | 'landing' | 'login'
   | 'dashboard' | 'feed' | 'details' | 'trip' | 'history' | 'earnings' | 'profile'
   | 'shopping' | 'merchants'
-  | 'customer-home' | 'customer-explore' | 'customer-cart' | 'customer-orders';
+  | 'customer-home' | 'customer-explore' | 'customer-cart' | 'customer-orders' | 'checkout';
 
 function AppInner() {
   const { t } = useLang();
@@ -41,7 +44,7 @@ function AppInner() {
   const [role, setRole] = useState<Role>('rider');
   const [driverTab, setDriverTab] = useState<DriverTab>('dashboard');
   const [customerTab, setCustomerTab] = useState<CustomerTab>('home');
-  const [cartCount, setCartCount] = useState(0);
+  const { count: cartCount } = useCart();
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const [activeOrder, setActiveOrder] = useState<Order | null>(null);
   const [toast, setToast] = useState<string | null>(null);
@@ -117,7 +120,7 @@ function AppInner() {
   }
 
   const showDriverNav = screen === 'dashboard' || screen === 'feed' || screen === 'earnings' || screen === 'profile';
-  const showCustomerNav = screen === 'customer-home' || screen === 'merchants' || screen === 'customer-cart' || screen === 'history' || screen === 'profile';
+  const showCustomerNav = screen === 'customer-home' || screen === 'merchants' || screen === 'customer-cart' || screen === 'history' || screen === 'profile' || screen === 'checkout';
 
   if (screen === 'onboarding') {
     return <Onboarding onComplete={() => setScreen('landing')} />;
@@ -194,25 +197,22 @@ function AppInner() {
           )}
 
           {screen === 'customer-cart' && (
-            <div className="flex flex-col h-full bg-[#F8F9FA]">
-              <div className="bg-white px-5 pt-12 pb-5 flex-shrink-0 border-b border-gray-100">
-                <h1 className="text-[#2C3E50] text-2xl font-bold">Your Cart</h1>
-                <p className="text-gray-400 text-sm mt-0.5">Review items before checkout</p>
-              </div>
-              <div className="flex-1 overflow-y-auto px-4 py-4">
-                {cartCount === 0 ? (
-                  <div className="flex flex-col items-center gap-3 py-16 text-center">
-                    <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center">
-                      <span className="text-gray-300 text-2xl font-bold">0</span>
-                    </div>
-                    <p className="text-gray-500 font-medium">Your cart is empty</p>
-                    <p className="text-gray-400 text-sm">Browse merchants to add items</p>
-                  </div>
-                ) : (
-                  <p className="text-gray-500 text-sm">{cartCount} item(s) in cart</p>
-                )}
-              </div>
-            </div>
+            <Cart
+              onBack={() => { setCustomerTab('home'); setScreen('customer-home'); }}
+              onCheckout={() => setScreen('checkout')}
+              onBrowse={() => { setCustomerTab('explore'); setScreen('merchants'); }}
+            />
+          )}
+
+          {screen === 'checkout' && (
+            <Checkout
+              onBack={() => setScreen('customer-cart')}
+              onSuccess={() => {
+                setToast('Order placed! A driver will be notified.');
+                setCustomerTab('orders');
+                setScreen('history');
+              }}
+            />
           )}
         </div>
 
@@ -232,7 +232,9 @@ function AppInner() {
 export default function App() {
   return (
     <LanguageProvider>
-      <AppInner />
+      <CartProvider>
+        <AppInner />
+      </CartProvider>
     </LanguageProvider>
   );
 }

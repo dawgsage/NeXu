@@ -246,9 +246,19 @@ export default function OfferFeed({ onSelectOrder, onOpenMerchants }: Props) {
                             <p className="text-gray-500 text-sm truncate mt-0.5">{order.dropoff}</p>
                           </div>
                         </div>
-                        <p className="text-gray-400 text-xs">{order.distance} km{order.toll_fee > 0 && ` · +${formatPeso(order.toll_fee)} toll`}</p>
+                        <p className="text-gray-400 text-xs flex items-center gap-1.5 flex-wrap">
+                          <MapPin size={11} className="text-[#2ECC71]" />
+                          <span>{(order.distance * 0.3).toFixed(1)} km to Store</span>
+                          <span className="text-gray-300">·</span>
+                          <span>{(order.distance * 0.7).toFixed(1)} km to Customer</span>
+                          {order.toll_fee > 0 && <><span className="text-gray-300">·</span><span>+{formatPeso(order.toll_fee)} toll</span></>}
+                        </p>
                       </div>
                       <div className="text-right flex-shrink-0">
+                        <div className="flex items-center gap-1 justify-end mb-1">
+                          <Clock size={12} className="text-[#2ECC71]" />
+                          <span className="text-[#2ECC71] text-xs font-bold">{Math.max(15, Math.round(order.distance * 4))} mins</span>
+                        </div>
                         <p className="text-[#2C3E50] text-[10px] font-medium mb-0.5">Total Pay</p>
                         <p className="text-[#2ECC71] text-2xl font-black leading-none">{formatPeso(total)}</p>
                       </div>

@@ -1,11 +1,10 @@
 import { useEffect, useState, useRef } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, CircleMarker } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
-import { MapPin, Navigation, RefreshCw, AlertCircle, Store } from 'lucide-react';
+import { RefreshCw, AlertCircle } from 'lucide-react';
 import { supabase, type Order, formatPeso, totalPayable } from '@/lib/supabase';
 import { fetchMerchants, type Merchant } from '@/lib/merchants';
 
-// Fix default leaflet marker icons
 const orderIcon = L.divIcon({
   html: '<div style="width:24px;height:24px;border-radius:50%;background:#2ECC71;border:3px solid #001F3F;box-shadow:0 2px 6px rgba(0,0,0,0.3)"></div>',
   className: '',
@@ -52,8 +51,17 @@ export default function LiveMap() {
     return () => { supabase.removeChannel(channel); };
   }, []);
 
-  // Center on Metro Manila
-  const center: [number, number] = [14.5995, 120.9842];
+  // Center on Luzon (midpoint of all coverage regions)
+  const center: [number, number] = [15.0, 120.8];
+
+  // Auto-fit map bounds to all merchant markers once loaded
+  useEffect(() => {
+    if (!mapRef.current || loading || merchants.length === 0) return;
+    const activeMerchants = merchants.filter(m => m.is_active);
+    if (activeMerchants.length === 0) return;
+    const bounds = L.latLngBounds(activeMerchants.map(m => [m.lat, m.lng] as [number, number]));
+    mapRef.current.fitBounds(bounds, { padding: [40, 40] });
+  }, [loading, merchants]);
 
   return (
     <div>
@@ -80,7 +88,7 @@ export default function LiveMap() {
         ) : (
           <MapContainer
             center={center}
-            zoom={11}
+            zoom={8}
             style={{ height: '100%', width: '100%' }}
             ref={(m) => { if (m) mapRef.current = m; }}
           >
@@ -153,6 +161,3 @@ export default function LiveMap() {
     </div>
   );
 }
-
-// Keep MapPin/Navigation/Store imported for tree-shaking friendliness
-void MapPin; void Navigation; void Store; void CircleMarker;

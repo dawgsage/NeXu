@@ -2,16 +2,17 @@ import { useEffect, useState, useCallback, useMemo } from 'react';
 import {
   ArrowLeft, Store, Loader2, AlertCircle, Package, Utensils, ShoppingCart,
   Pill, Coffee, TrendingUp, Tag, ChevronRight, Search, MapPin, X,
-  ShoppingBag, Wrench, Home as HomeIcon,
+  ShoppingBag, Wrench, Home as HomeIcon, Plus, Check, AlertTriangle,
 } from 'lucide-react';
 import { fetchMerchants, type Merchant } from '@/lib/merchants';
 import { fetchMenuByMerchant, fetchGroceryComparisons, type MenuItem, type PriceComparison } from '@/lib/menu';
+import { useCart } from '@/lib/cart';
 
 type Props = {
   onBack: () => void;
 };
 
-const REGIONS = ['All Regions', 'NCR', 'Bulacan', 'Calabarzon', 'Dagupan'];
+const REGIONS = ['All Regions', 'NCR', 'Bulacan', 'Calabarzon', 'Dagupan', 'Region 3'];
 
 const SERVICE_ICONS = [
   { id: 'Food', label: 'Food', icon: <Utensils size={20} /> },
@@ -36,6 +37,7 @@ function merchantDisplayCategory(m: Merchant): string {
 }
 
 export default function MerchantMenu({ onBack }: Props) {
+  const { addItem, merchantId: cartMerchantId, merchantName: cartMerchantName, lines } = useCart();
   const [merchants, setMerchants] = useState<Merchant[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -48,6 +50,9 @@ export default function MerchantMenu({ onBack }: Props) {
   const [region, setRegion] = useState('All Regions');
   const [activeService, setActiveService] = useState<string | null>(null);
   const [regionOpen, setRegionOpen] = useState(false);
+  const [pendingItem, setPendingItem] = useState<{ item: MenuItem; merchant: Merchant } | null>(null);
+  const [addedIds, setAddedIds] = useState<Set<string>>(new Set());
+  const [activeTab, setActiveTab] = useState<string>('All');
 
   const load = useCallback(async () => {
     try {
@@ -107,12 +112,30 @@ export default function MerchantMenu({ onBack }: Props) {
     if (cat === 'Grocery') return <ShoppingCart size={13} />;
     if (cat === 'Pharmacy') return <Pill size={13} />;
     if (cat === 'Retail') return <ShoppingBag size={13} />;
+    if (cat === 'Snacks') return <Package size={13} />;
+    if (cat === 'Cafe') return <Coffee size={13} />;
     return <Package size={13} />;
   };
 
   const formatPrice = (item: MenuItem) => {
     if (item.price_high && item.price_high > item.price) return `₱${item.price} – ₱${item.price_high}`;
     return `₱${item.price}`;
+  };
+
+  const handleAddItem = (item: MenuItem, merchant: Merchant) => {
+    if (cartMerchantId && cartMerchantId !== merchant.id && lines.length > 0) {
+      setPendingItem({ item, merchant });
+      return;
+    }
+    doAddItem(item, merchant);
+  };
+
+  const doAddItem = (item: MenuItem, merchant: Merchant) => {
+    addItem(item, merchant.id, merchant.name);
+    setAddedIds(prev => { const s = new Set(prev); s.add(item.id); return s; });
+    setTimeout(() => {
+      setAddedIds(prev => { const s = new Set(prev); s.delete(item.id); return s; });
+    }, 1500);
   };
 
   // ===== COMPARE PRICES VIEW =====
@@ -177,12 +200,18 @@ export default function MerchantMenu({ onBack }: Props) {
       (acc[item.category] ??= []).push(item);
       return acc;
     }, {});
-    const catOrder = ['Food', 'Drink', 'Grocery', 'Pharmacy', 'Retail'];
+    const catOrder = ['Food', 'Drink', 'Snacks', 'Grocery', 'Pharmacy', 'Retail'];
+    const tabCats = ['All', 'Food', 'Drink', 'Snacks', 'Grocery'];
+    const filteredItems = activeTab === 'All' ? items : items.filter(i => i.category === activeTab);
+    const filteredGrouped = filteredItems.reduce<Record<string, MenuItem[]>>((acc, item) => {
+      (acc[item.category] ??= []).push(item);
+      return acc;
+    }, {});
 
     return (
       <div className="flex flex-col h-full bg-[#F8F9FA]">
         <div className="bg-white px-5 pt-12 pb-4 flex-shrink-0 border-b border-gray-100">
-          <button onClick={() => setSelectedMerchant(null)} className="flex items-center gap-2 text-gray-500 mb-3 active:opacity-70">
+          <button onClick={() => { setSelectedMerchant(null); setActiveTab('All'); }} className="flex items-center gap-2 text-gray-500 mb-3 active:opacity-70">
             <ArrowLeft size={18} /><span className="text-sm font-medium">Back to Merchants</span>
           </button>
           <div className="flex items-center gap-3">
@@ -199,34 +228,71 @@ export default function MerchantMenu({ onBack }: Props) {
             </div>
           </div>
         </div>
+        {/* Category tab bar */}
+        <div className="bg-white px-4 pb-3 flex-shrink-0 border-b border-gray-100">
+          <div className="flex gap-2 overflow-x-auto no-scrollbar">
+            {tabCats.map(tab => (
+              <button
+                key={tab}
+                onClick={() => setActiveTab(tab)}
+                className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap transition-all active:scale-95 ${
+                  activeTab === tab
+                    ? 'bg-[#2ECC71] text-white shadow-sm'
+                    : 'bg-gray-50 text-gray-500 active:bg-gray-100'
+                }`}
+              >
+                {tab === 'All' ? <Package size={12} /> : categoryIcon(tab)}
+                {tab}
+              </button>
+            ))}
+          </div>
+        </div>
         <div className="flex-1 overflow-y-auto px-4 py-4 space-y-4">
           {itemsLoading ? (
             <div className="flex items-center justify-center py-12"><Loader2 size={26} className="text-[#2ECC71] animate-spin" /></div>
           ) : error ? (
             <div className="flex flex-col items-center gap-2 py-12"><AlertCircle size={28} className="text-red-400" /><p className="text-red-500 text-sm font-medium">{error}</p></div>
-          ) : items.length === 0 ? (
-            <div className="flex flex-col items-center gap-3 py-16 text-center"><Package size={32} className="text-gray-300" /><p className="text-gray-500 font-medium">No menu items yet</p></div>
+          ) : filteredItems.length === 0 ? (
+            <div className="flex flex-col items-center gap-3 py-16 text-center"><Package size={32} className="text-gray-300" /><p className="text-gray-500 font-medium">No items in this category</p></div>
           ) : (
-            catOrder.filter(c => grouped[c]).map(cat => (
+            catOrder.filter(c => filteredGrouped[c]).map(cat => (
               <div key={cat}>
                 <div className="flex items-center gap-1.5 mb-2 px-1">
                   {categoryIcon(cat)}
                   <p className="text-gray-500 text-xs font-bold uppercase tracking-wide">{cat}</p>
                 </div>
                 <div className="space-y-2">
-                  {grouped[cat].map(item => (
+                  {filteredGrouped[cat].map(item => (
                     <div key={item.id} className="bg-white rounded-xl border border-gray-100 shadow-sm p-3.5">
                       <div className="flex items-start justify-between gap-3">
-                        <div className="flex-1 min-w-0">
-                          <p className="text-[#2C3E50] font-semibold text-sm">{item.item_name}</p>
-                          <p className="text-gray-400 text-xs mt-0.5">{item.manufacturer}</p>
-                          {item.brand && (
-                            <span className="inline-flex items-center gap-0.5 mt-1 text-[10px] font-medium text-gray-500 bg-gray-50 px-1.5 py-0.5 rounded">
-                              <Tag size={9} />{item.brand}
-                            </span>
-                          )}
+                        <div className="flex items-start gap-3 flex-1 min-w-0">
+                          {item.image_url ? (
+                            <img src={item.image_url} alt={item.item_name} loading="lazy" className="w-[60px] h-[60px] rounded-lg object-cover flex-shrink-0 border border-gray-100" />
+                          ) : null}
+                          <div className="flex-1 min-w-0">
+                            <p className="text-[#2C3E50] font-semibold text-sm">{item.item_name}</p>
+                            <p className="text-gray-400 text-xs mt-0.5">{item.manufacturer}</p>
+                            {item.brand && (
+                              <span className="inline-flex items-center gap-0.5 mt-1 text-[10px] font-medium text-gray-500 bg-gray-50 px-1.5 py-0.5 rounded">
+                                <Tag size={9} />{item.brand}
+                              </span>
+                            )}
+                          </div>
                         </div>
-                        <span className="text-[#2ECC71] font-bold text-sm whitespace-nowrap">{formatPrice(item)}</span>
+                        <div className="flex flex-col items-end gap-2 flex-shrink-0">
+                          <span className="text-[#2ECC71] font-bold text-sm whitespace-nowrap">{formatPrice(item)}</span>
+                          <button
+                            onClick={() => handleAddItem(item, selectedMerchant)}
+                            className={`flex items-center gap-1 rounded-lg px-3 py-1.5 text-xs font-bold transition-all active:scale-95 ${
+                              addedIds.has(item.id)
+                                ? 'bg-[#2ECC71] text-white'
+                                : 'bg-[#2ECC71]/10 text-[#2ECC71] active:bg-[#2ECC71]/20'
+                            }`}
+                          >
+                            {addedIds.has(item.id) ? <Check size={13} /> : <Plus size={13} />}
+                            {addedIds.has(item.id) ? 'Added' : 'Add'}
+                          </button>
+                        </div>
                       </div>
                     </div>
                   ))}
@@ -236,6 +302,47 @@ export default function MerchantMenu({ onBack }: Props) {
           )}
         </div>
       </div>
+    );
+  }
+
+  // ===== CROSS-MERCHANT CONFIRM MODAL =====
+  if (pendingItem) {
+    return (
+      <>
+        <div className="flex flex-col h-full bg-[#F8F9FA]">
+          <div className="bg-white px-5 pt-12 pb-4 flex-shrink-0 border-b border-gray-100">
+            <button onClick={() => setSelectedMerchant(null)} className="flex items-center gap-2 text-gray-500 mb-3 active:opacity-70">
+              <ArrowLeft size={18} /><span className="text-sm font-medium">Back to Merchants</span>
+            </button>
+          </div>
+        </div>
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center px-6">
+          <div className="bg-white rounded-2xl p-6 max-w-sm w-full">
+            <div className="w-12 h-12 rounded-full bg-amber-50 flex items-center justify-center mx-auto mb-4">
+              <AlertTriangle size={24} className="text-amber-500" />
+            </div>
+            <h3 className="text-[#2C3E50] font-bold text-lg text-center mb-2">Replace cart items?</h3>
+            <p className="text-gray-500 text-sm text-center mb-5">
+              Your cart has items from <span className="font-semibold text-[#2C3E50]">{cartMerchantName}</span>.
+              Adding from <span className="font-semibold text-[#2C3E50]">{pendingItem.merchant.name}</span> will clear your current cart.
+            </p>
+            <div className="flex gap-3">
+              <button
+                onClick={() => setPendingItem(null)}
+                className="flex-1 bg-gray-100 text-gray-600 font-semibold py-3 rounded-xl text-sm active:bg-gray-200"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => { doAddItem(pendingItem.item, pendingItem.merchant); setPendingItem(null); }}
+                className="flex-1 bg-[#2ECC71] text-white font-bold py-3 rounded-xl text-sm active:bg-emerald-600"
+              >
+                Replace & Add
+              </button>
+            </div>
+          </div>
+        </div>
+      </>
     );
   }
 
