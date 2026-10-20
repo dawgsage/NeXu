@@ -4,6 +4,11 @@ export default {
   theme: {
     extend: {
       colors: {
+        nexu: {
+          DEFAULT: '#10B981',
+          dark: '#059669',
+          light: '#34D399',
+        },
         navy: {
           DEFAULT: '#001F3F',
           50: '#E6EDF5',
@@ -32,7 +37,7 @@ export default {
         },
       },
       fontFamily: {
-        sans: ['-apple-system', 'BlinkMacSystemFont', 'SF Pro Display', 'Segoe UI', 'Roboto', 'sans-serif'],
+        sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'SF Pro Display', 'Segoe UI', 'Roboto', 'sans-serif'],
       },
     },
   },

@@ -6,14 +6,14 @@ import { supabase, type Order, formatPeso, totalPayable } from '@/lib/supabase';
 import { fetchMerchants, type Merchant } from '@/lib/merchants';
 
 const orderIcon = L.divIcon({
-  html: '<div style="width:24px;height:24px;border-radius:50%;background:#2ECC71;border:3px solid #001F3F;box-shadow:0 2px 6px rgba(0,0,0,0.3)"></div>',
+  html: '<div style="width:24px;height:24px;border-radius:50%;background:#10B981;border:3px solid #0F172A;box-shadow:0 2px 6px rgba(0,0,0,0.3)"></div>',
   className: '',
   iconSize: [24, 24],
   iconAnchor: [12, 12],
 });
 
 const merchantIcon = L.divIcon({
-  html: '<div style="width:22px;height:22px;border-radius:6px;background:#001F3F;border:2px solid #2ECC71;display:flex;align-items:center;justify-content:center;color:#2ECC71;font-size:12px;font-weight:bold">M</div>',
+  html: '<div style="width:22px;height:22px;border-radius:6px;background:#0F172A;border:2px solid #10B981;display:flex;align-items:center;justify-content:center;color:#10B981;font-size:12px;font-weight:bold">M</div>',
   className: '',
   iconSize: [22, 22],
   iconAnchor: [11, 11],
@@ -67,7 +67,7 @@ export default function LiveMap() {
     <div>
       <div className="flex items-center justify-between mb-4">
         <div>
-          <h1 className="text-[#2C3E50] text-2xl font-bold">Live Map</h1>
+          <h1 className="text-[#0F172A] text-2xl font-bold">Live Map</h1>
           <p className="text-gray-400 text-sm mt-0.5">
             {orders.length} available orders · {merchants.filter(m => m.is_active).length} active merchants
           </p>
@@ -83,7 +83,7 @@ export default function LiveMap() {
       <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden" style={{ height: '70vh', minHeight: '400px' }}>
         {loading ? (
           <div className="flex items-center justify-center h-full">
-            <RefreshCw size={28} className="text-[#2ECC71] animate-spin" />
+            <RefreshCw size={28} className="text-[#10B981] animate-spin" />
           </div>
         ) : (
           <MapContainer
@@ -107,12 +107,12 @@ export default function LiveMap() {
                 <Popup>
                   <div style={{ minWidth: '180px' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '4px', marginBottom: '6px' }}>
-                      <strong style={{ color: '#001F3F', fontSize: '13px' }}>{order.pickup}</strong>
+                      <strong style={{ color: '#0F172A', fontSize: '13px' }}>{order.pickup}</strong>
                     </div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '4px', color: '#666', fontSize: '12px', marginBottom: '6px' }}>
                       → {order.dropoff}
                     </div>
-                    <div style={{ fontSize: '16px', fontWeight: 'bold', color: '#2ECC71' }}>
+                    <div style={{ fontSize: '16px', fontWeight: 'bold', color: '#10B981' }}>
                       {formatPeso(totalPayable(order))}
                     </div>
                     <div style={{ fontSize: '11px', color: '#999', marginTop: '4px' }}>
@@ -132,8 +132,8 @@ export default function LiveMap() {
               >
                 <Popup>
                   <div style={{ minWidth: '150px' }}>
-                    <strong style={{ color: '#001F3F', fontSize: '13px' }}>{merchant.name}</strong>
-                    <div style={{ fontSize: '11px', color: '#2ECC71', marginTop: '4px', fontWeight: '600' }}>
+                    <strong style={{ color: '#0F172A', fontSize: '13px' }}>{merchant.name}</strong>
+                    <div style={{ fontSize: '11px', color: '#10B981', marginTop: '4px', fontWeight: '600' }}>
                       {merchant.category}
                     </div>
                     <div style={{ fontSize: '11px', color: '#999', marginTop: '2px' }}>
@@ -150,11 +150,11 @@ export default function LiveMap() {
       {/* Legend */}
       <div className="flex items-center gap-5 mt-3 text-xs text-gray-500">
         <div className="flex items-center gap-1.5">
-          <div className="w-3 h-3 rounded-full bg-[#2ECC71] border-2 border-[#001F3F]" />
+          <div className="w-3 h-3 rounded-full bg-[#10B981] border-2 border-[#0F172A]" />
           Available Order
         </div>
         <div className="flex items-center gap-1.5">
-          <div className="w-3 h-3 rounded bg-[#001F3F] border border-[#2ECC71]" />
+          <div className="w-3 h-3 rounded bg-[#0F172A] border border-[#10B981]" />
           Active Merchant
         </div>
       </div>

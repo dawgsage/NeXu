@@ -18,23 +18,23 @@ const tabs: { id: CustomerTab; label: string; icon: React.ReactNode }[] = [
 
 export default function CustomerBottomNav({ active, onChange, cartCount = 0 }: Props) {
   return (
-    <div className="bg-white border-t border-gray-100 flex items-center justify-around px-1 py-2 flex-shrink-0 safe-area-pb">
+    <div className="bg-white shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] flex items-center justify-around px-1 py-2 flex-shrink-0 safe-area-pb">
       {tabs.map(tab => {
         const isActive = active === tab.id;
         return (
           <button
             key={tab.id}
             onClick={() => onChange(tab.id)}
-            className="relative flex flex-col items-center gap-0.5 px-3 py-1.5 transition-colors"
+            className="relative flex flex-col items-center gap-0.5 px-3 py-1.5 transition-all duration-200"
           >
-            <div className={isActive ? 'text-[#2ECC71]' : 'text-gray-400'}>
+            <div className={`transition-transform duration-200 ${isActive ? 'text-[#10B981] scale-110' : 'text-[#94A3B8]'}`}>
               {tab.icon}
             </div>
-            <span className={`text-[11px] font-medium ${isActive ? 'text-[#2ECC71]' : 'text-gray-400'}`}>
+            <span className={`text-[11px] font-medium ${isActive ? 'text-[#10B981]' : 'text-[#94A3B8]'}`}>
               {tab.label}
             </span>
             {tab.id === 'cart' && cartCount > 0 && (
-              <span className="absolute top-0 right-2 bg-[#2ECC71] text-white text-[10px] font-bold rounded-full min-w-[18px] h-[18px] flex items-center justify-center px-1">
+              <span className="absolute top-0 right-2 bg-[#F59E0B] text-[#0F172A] text-[10px] font-bold rounded-full min-w-[18px] h-[18px] flex items-center justify-center px-1">
                 {cartCount > 99 ? '99+' : cartCount}
               </span>
             )}

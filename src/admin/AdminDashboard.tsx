@@ -106,10 +106,10 @@ function OrdersTab() {
     <div>
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="text-[#2C3E50] text-2xl font-bold">Live Orders</h1>
+          <h1 className="text-[#0F172A] text-2xl font-bold">Live Orders</h1>
           <p className="text-gray-400 text-sm mt-0.5">{orders.length} total orders · real-time synced</p>
         </div>
-        <button onClick={load} className="flex items-center gap-1.5 text-[#2C3E50] text-sm font-medium bg-white border border-gray-200 px-3 py-2 rounded-lg hover:bg-gray-50">
+        <button onClick={load} className="flex items-center gap-1.5 text-[#0F172A] text-sm font-medium bg-white border border-gray-200 px-3 py-2 rounded-lg hover:bg-gray-50">
           <RefreshCw size={15} /> Refresh
         </button>
       </div>
@@ -133,14 +133,14 @@ function OrdersTab() {
               {orders.map(order => (
                 <tr key={order.id} className="hover:bg-gray-50/50">
                   <td className="px-4 py-3">
-                    <p className="text-[#2C3E50] font-medium truncate max-w-[200px]">{order.pickup}</p>
+                    <p className="text-[#0F172A] font-medium truncate max-w-[200px]">{order.pickup}</p>
                     <p className="text-gray-400 text-xs truncate max-w-[200px]">→ {order.dropoff}</p>
                   </td>
                   <td className="px-4 py-3"><span className="text-xs font-medium text-gray-600">{order.category}</span></td>
                   <td className="px-4 py-3">
                     <span className="inline-flex items-center gap-1 text-xs text-gray-600">{vehicleIcon(order.vehicle_type)} {order.vehicle_type}</span>
                   </td>
-                  <td className="px-4 py-3 text-right"><span className="text-[#2ECC71] font-bold">{formatPeso(order.fare)}</span></td>
+                  <td className="px-4 py-3 text-right"><span className="text-[#10B981] font-bold">{formatPeso(order.fare)}</span></td>
                   <td className="px-4 py-3">
                     <span className={`inline-block text-xs font-semibold px-2.5 py-1 rounded-full border ${statusColor(order.status)}`}>{order.status}</span>
                   </td>
@@ -172,7 +172,7 @@ function StatusDropdown({ current, updating, onChange }: { current: string; upda
           <div className="absolute right-0 top-full mt-1 bg-white border border-gray-100 rounded-xl shadow-xl z-20 overflow-hidden min-w-[140px]">
             {ORDER_STATUSES.map(s => (
               <button key={s} onClick={() => { onChange(s); setOpen(false); }}
-                className={`w-full text-left px-3 py-2 text-xs font-medium flex items-center justify-between hover:bg-gray-50 ${s === current ? 'text-[#2ECC71]' : 'text-gray-700'}`}>
+                className={`w-full text-left px-3 py-2 text-xs font-medium flex items-center justify-between hover:bg-gray-50 ${s === current ? 'text-[#10B981]' : 'text-gray-700'}`}>
                 {s}{s === current && <Check size={12} />}
               </button>
             ))}
@@ -199,11 +199,11 @@ function CreateOrderTab({ onCreated }: { onCreated: () => void }) {
     setSaving(false);
   };
 
-  const field = "w-full bg-white border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-[#2C3E50] focus:outline-none focus:border-[#2ECC71]";
+  const field = "w-full bg-white border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-[#0F172A] focus:outline-none focus:border-[#10B981]";
 
   return (
     <div className="max-w-2xl">
-      <h1 className="text-[#2C3E50] text-2xl font-bold mb-1">Create Order</h1>
+      <h1 className="text-[#0F172A] text-2xl font-bold mb-1">Create Order</h1>
       <p className="text-gray-400 text-sm mb-6">Manually add a new delivery order to the database</p>
       {success && <div className="bg-emerald-50 border border-emerald-200 rounded-xl px-4 py-3 mb-4 flex items-center gap-2 text-emerald-700 text-sm font-medium"><Check size={16} /> Order created successfully! Redirecting...</div>}
       {error && <ErrorBanner message={error} onDismiss={() => setError(null)} />}
@@ -221,7 +221,7 @@ function CreateOrderTab({ onCreated }: { onCreated: () => void }) {
           <div><label className="block text-gray-500 text-xs font-semibold uppercase tracking-wide mb-1.5">Category</label><select value={form.category} onChange={e => setForm(f => ({ ...f, category: e.target.value }))} className={field}>{CATEGORIES.filter(c => c !== 'All').map(c => <option key={c} value={c}>{c}</option>)}</select></div>
           <div><label className="block text-gray-500 text-xs font-semibold uppercase tracking-wide mb-1.5">Note (optional)</label><input value={form.note} onChange={e => setForm(f => ({ ...f, note: e.target.value }))} className={field} placeholder="Special instructions" /></div>
         </div>
-        <button type="submit" disabled={saving} className="w-full sm:w-auto bg-[#2ECC71] active:bg-emerald-600 disabled:opacity-60 text-white font-bold px-8 py-3 rounded-xl flex items-center justify-center gap-2 transition-colors">
+        <button type="submit" disabled={saving} className="w-full sm:w-auto bg-[#10B981] active:bg-emerald-600 disabled:opacity-60 text-white font-bold px-8 py-3 rounded-xl flex items-center justify-center gap-2 transition-colors">
           {saving ? 'Saving...' : <><Plus size={18} /> Create Order</>}
         </button>
       </form>
@@ -242,7 +242,7 @@ function DriversTab() {
 
   return (
     <div>
-      <h1 className="text-[#2C3E50] text-2xl font-bold mb-1">Registered Drivers</h1>
+      <h1 className="text-[#0F172A] text-2xl font-bold mb-1">Registered Drivers</h1>
       <p className="text-gray-400 text-sm mb-6">{drivers.length} driver{drivers.length !== 1 ? 's' : ''} on the platform</p>
       {error && <ErrorBanner message={error} onDismiss={() => setError(null)} />}
       {drivers.length === 0 ? (
@@ -258,7 +258,7 @@ function DriversTab() {
             <tbody className="divide-y divide-gray-50">
               {drivers.map(d => (
                 <tr key={d.id} className="hover:bg-gray-50/50">
-                  <td className="px-4 py-3"><span className="text-[#2C3E50] font-mono text-xs">{d.id.slice(0, 8)}...</span></td>
+                  <td className="px-4 py-3"><span className="text-[#0F172A] font-mono text-xs">{d.id.slice(0, 8)}...</span></td>
                   <td className="px-4 py-3"><span className="inline-flex items-center gap-1 text-gray-600 text-xs">{vehicleIcon(d.vehicle)} {d.vehicle}</span></td>
                   <td className="px-4 py-3"><span className={`inline-block text-xs font-semibold px-2.5 py-1 rounded-full border ${d.status === 'Active' || d.status === 'Online' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-amber-50 text-amber-700 border-amber-200'}`}>{d.status || 'Unknown'}</span></td>
                   <td className="px-4 py-3 text-gray-400 text-xs">{new Date(d.created_at).toLocaleDateString('en-PH', { month: 'short', day: 'numeric', year: 'numeric' })}</td>
@@ -317,7 +317,7 @@ function MerchantsTab() {
 
   return (
     <div>
-      <h1 className="text-[#2C3E50] text-2xl font-bold mb-1">Merchants</h1>
+      <h1 className="text-[#0F172A] text-2xl font-bold mb-1">Merchants</h1>
       <p className="text-gray-400 text-sm mb-6">{merchants.filter(m => m.is_active).length} active · {merchants.length} total · real-time</p>
       {error && <ErrorBanner message={error} onDismiss={() => setError(null)} />}
       {merchants.length === 0 ? (
@@ -332,10 +332,10 @@ function MerchantsTab() {
               <div className="flex items-start justify-between gap-3 mb-3">
                 <div className="flex items-start gap-3 flex-1 min-w-0">
                   <div className={`w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 ${m.is_active ? 'bg-emerald-50' : 'bg-gray-100'}`}>
-                    <Store size={20} className={m.is_active ? 'text-[#2ECC71]' : 'text-gray-400'} />
+                    <Store size={20} className={m.is_active ? 'text-[#10B981]' : 'text-gray-400'} />
                   </div>
                   <div className="min-w-0">
-                    <p className="text-[#2C3E50] font-bold text-sm truncate">{m.name}</p>
+                    <p className="text-[#0F172A] font-bold text-sm truncate">{m.name}</p>
                     <span className={`inline-block text-[10px] font-semibold px-2 py-0.5 rounded-full border mt-1 ${categoryColor(m.category)}`}>{m.category}</span>
                   </div>
                 </div>
@@ -343,13 +343,13 @@ function MerchantsTab() {
               <div className="flex items-center justify-between border-t border-gray-50 pt-3">
                 <div>
                   <p className="text-gray-400 text-xs">{m.lat}, {m.lng}</p>
-                  <p className={`text-xs font-bold mt-0.5 ${m.is_active ? 'text-[#2ECC71]' : 'text-gray-400'}`}>
+                  <p className={`text-xs font-bold mt-0.5 ${m.is_active ? 'text-[#10B981]' : 'text-gray-400'}`}>
                     {m.is_active ? 'Available' : 'Paused'}
                   </p>
                 </div>
                 <button onClick={() => handleToggle(m.id, m.is_active)} disabled={togglingId === m.id}
                   className="flex items-center gap-1.5 active:opacity-70">
-                  {m.is_active ? <ToggleRight size={36} className="text-[#2ECC71]" /> : <ToggleLeft size={36} className="text-gray-300" />}
+                  {m.is_active ? <ToggleRight size={36} className="text-[#10B981]" /> : <ToggleLeft size={36} className="text-gray-300" />}
                 </button>
               </div>
             </div>
@@ -363,7 +363,7 @@ function MerchantsTab() {
 function LoadingState() {
   return (
     <div className="flex flex-col items-center justify-center h-48 gap-3">
-      <RefreshCw size={26} className="text-[#2ECC71] animate-spin" />
+      <RefreshCw size={26} className="text-[#10B981] animate-spin" />
       <p className="text-gray-400 text-sm">Loading...</p>
     </div>
   );

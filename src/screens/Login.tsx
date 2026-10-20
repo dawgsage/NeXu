@@ -63,10 +63,10 @@ export default function Login({ onUnlock }: Props) {
   return (
     <div className="flex flex-col h-full bg-white px-6 pt-16 pb-8">
       <div className="flex-1 flex flex-col items-center justify-center text-center">
-        <div className="w-20 h-20 rounded-3xl bg-[#2ECC71]/10 border border-[#2ECC71]/20 flex items-center justify-center mb-6">
-          <Shield size={36} className="text-[#2ECC71]" />
+        <div className="w-20 h-20 rounded-3xl bg-[#10B981]/10 border border-[#10B981]/20 flex items-center justify-center mb-6">
+          <Shield size={36} className="text-[#10B981]" />
         </div>
-        <h1 className="text-[#2C3E50] text-3xl font-black tracking-tight mb-2">NeXu Driver</h1>
+        <h1 className="text-[#0F172A] text-3xl font-black tracking-tight mb-2">NeXu Driver</h1>
         <p className="text-gray-500 text-sm mb-1">Secure driver app for Filipino riders</p>
         <p className="text-gray-400 text-xs">Motorcycle · Car · Tricycle · Van</p>
 
@@ -88,7 +88,7 @@ export default function Login({ onUnlock }: Props) {
       <button
         onClick={authenticate}
         disabled={authenticating}
-        className="w-full bg-[#2ECC71] active:bg-emerald-600 disabled:opacity-60 text-white font-bold text-lg py-4 rounded-2xl shadow-lg shadow-emerald-100 flex items-center justify-center gap-2.5 transition-all"
+        className="w-full bg-gradient-to-r from-[#10B981] to-[#059669] hover:scale-[1.02] active:scale-95 disabled:opacity-60 text-white font-bold tracking-wide text-lg py-4 rounded-full shadow-lg shadow-[#10B981]/30 flex items-center justify-center gap-2.5 transition-all duration-200"
       >
         {authenticating ? (
           <>

@@ -6,9 +6,10 @@ type Props = {
   expectedBarcode: string | null;
   onScan: (barcode: string) => void;
   onClose: () => void;
+  onDemoScan?: () => void;
 };
 
-export default function BarcodeScanner({ expectedBarcode, onScan, onClose }: Props) {
+export default function BarcodeScanner({ expectedBarcode, onScan, onClose, onDemoScan }: Props) {
   const containerId = 'barcode-scanner-region';
   const scannerRef = useRef<Html5Qrcode | null>(null);
   const [status, setStatus] = useState<'starting' | 'scanning' | 'error'>('starting');
@@ -70,7 +71,7 @@ export default function BarcodeScanner({ expectedBarcode, onScan, onClose }: Pro
       <div className="flex-1 relative flex items-center justify-center">
         {status === 'starting' && (
           <div className="flex flex-col items-center gap-3">
-            <Loader2 size={32} className="text-[#2ECC71] animate-spin" />
+            <Loader2 size={32} className="text-[#10B981] animate-spin" />
             <p className="text-white/70 text-sm">Starting camera...</p>
           </div>
         )}
@@ -88,9 +89,9 @@ export default function BarcodeScanner({ expectedBarcode, onScan, onClose }: Pro
           <>
             <div id={containerId} className="w-full h-full" />
             <div className="absolute inset-0 pointer-events-none flex items-center justify-center">
-              <div className="w-[250px] h-[180px] border-2 border-[#2ECC71] rounded-2xl shadow-lg" />
+              <div className="w-[250px] h-[180px] border-2 border-[#10B981] rounded-2xl shadow-lg" />
             </div>
-            <div className="absolute bottom-8 left-0 right-0 text-center">
+            <div className="absolute bottom-20 left-0 right-0 text-center">
               <p className="text-white/80 text-sm flex items-center justify-center gap-1.5">
                 <Camera size={14} /> Point at the barcode
               </p>
@@ -98,6 +99,17 @@ export default function BarcodeScanner({ expectedBarcode, onScan, onClose }: Pro
           </>
         )}
       </div>
+
+      {onDemoScan && status !== 'error' && (
+        <div className="pb-8 px-4 bg-black/80">
+          <button
+            onClick={onDemoScan}
+            className="w-full text-[#10B981] text-xs font-medium py-2 active:opacity-70"
+          >
+            Demo: Simulate Successful Scan
+          </button>
+        </div>
+      )}
     </div>
   );
 }
@@ -111,7 +123,7 @@ export function useBarcodeScanner() {
 
 export function ScanSuccess({ name, brand }: { name: string; brand: string }) {
   return (
-    <div className="flex items-center gap-2 text-[#2ECC71]">
+    <div className="flex items-center gap-2 text-[#10B981]">
       <CheckCircle2 size={16} />
       <span className="text-sm font-medium">{name}{brand && ` — ${brand}`}</span>
     </div>

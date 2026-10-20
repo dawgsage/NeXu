@@ -13,6 +13,8 @@ export type Merchant = {
   latitude: number | null;
   longitude: number | null;
   is_mall_tenant: boolean;
+  logo_url: string | null;
+  banner_url: string | null;
 };
 
 export async function fetchMerchants(): Promise<Merchant[]> {

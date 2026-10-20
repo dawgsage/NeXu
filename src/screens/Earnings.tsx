@@ -71,16 +71,16 @@ export default function Earnings() {
   useEffect(() => { load(); }, [load]);
 
   return (
-    <div className="flex flex-col h-full bg-[#F8F9FA]">
+    <div className="flex flex-col h-full bg-[#F8FAFC]">
       <div className="bg-white px-5 pt-12 pb-5 flex-shrink-0 border-b border-gray-100">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-[#2C3E50] text-2xl font-bold">Earnings</h1>
+            <h1 className="text-[#0F172A] text-2xl font-bold">Earnings</h1>
             <p className="text-gray-400 text-sm mt-0.5">Track your delivery income</p>
           </div>
           <button
             onClick={() => setToastMsg(`₱${weeklyEarnings.toLocaleString()} transferred to your linked account!`)}
-            className="flex items-center gap-2 bg-[#2ECC71] text-white font-bold text-sm px-4 py-2.5 rounded-xl shadow-lg shadow-emerald-200 active:scale-95 transition-all"
+            className="flex items-center gap-2 bg-gradient-to-r from-[#10B981] to-[#059669] hover:scale-[1.02] active:scale-95 text-white font-bold tracking-wide text-sm px-4 py-2.5 rounded-full shadow-lg shadow-[#10B981]/30 transition-all duration-200"
           >
             <ArrowDownToLine size={16} />
             Cash Out
@@ -93,17 +93,17 @@ export default function Earnings() {
         <div className="grid grid-cols-2 gap-3">
           <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-4">
             <div className="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center mb-2">
-              <Wallet size={18} className="text-[#2ECC71]" />
+              <Wallet size={18} className="text-[#10B981]" />
             </div>
             <p className="text-gray-400 text-xs font-medium">Today</p>
-            <p className="text-[#2ECC71] text-2xl font-black">{formatPeso(todayEarnings)}</p>
+            <p className="text-[#10B981] text-2xl font-black">{formatPeso(todayEarnings)}</p>
           </div>
           <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-4">
             <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center mb-2">
               <TrendingUp size={18} className="text-blue-500" />
             </div>
             <p className="text-gray-400 text-xs font-medium">This Week</p>
-            <p className="text-[#2C3E50] text-2xl font-black">{formatPeso(weeklyEarnings)}</p>
+            <p className="text-[#0F172A] text-2xl font-black">{formatPeso(weeklyEarnings)}</p>
           </div>
         </div>
 
@@ -114,16 +114,16 @@ export default function Earnings() {
               <Package size={18} className="text-amber-500" />
             </div>
             <div>
-              <p className="text-[#2C3E50] font-semibold text-sm">Completed Deliveries</p>
+              <p className="text-[#0F172A] font-semibold text-sm">Completed Deliveries</p>
               <p className="text-gray-400 text-xs">Last 7 days</p>
             </div>
           </div>
-          <p className="text-[#2C3E50] text-xl font-black">{completedDeliveries}</p>
+          <p className="text-[#0F172A] text-xl font-black">{completedDeliveries}</p>
         </div>
 
         {/* Recent deliveries breakdown */}
         <div>
-          <h2 className="text-[#2C3E50] text-sm font-bold uppercase tracking-wide mb-3">Recent Deliveries</h2>
+          <h2 className="text-[#0F172A] text-sm font-bold uppercase tracking-wide mb-3">Recent Deliveries</h2>
           {loading ? (
             <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 text-center">
               <p className="text-gray-400 text-sm">Loading...</p>
@@ -142,7 +142,7 @@ export default function Earnings() {
                   <div key={order.id} className="bg-white rounded-xl border border-gray-100 shadow-sm p-4">
                     <div className="flex items-start justify-between mb-3">
                       <div className="flex-1 min-w-0">
-                        <p className="text-[#2C3E50] font-semibold text-sm truncate">{order.pickup}</p>
+                        <p className="text-[#0F172A] font-semibold text-sm truncate">{order.pickup}</p>
                         <p className="text-gray-400 text-xs truncate">→ {order.dropoff}</p>
                       </div>
                       <span className="text-gray-400 text-xs whitespace-nowrap ml-2">
@@ -152,7 +152,7 @@ export default function Earnings() {
                     <div className="space-y-1.5 text-xs">
                       <div className="flex justify-between">
                         <span className="text-gray-500">Gross Fare</span>
-                        <span className="text-[#2C3E50] font-semibold">{formatPeso(gross)}</span>
+                        <span className="text-[#0F172A] font-semibold">{formatPeso(gross)}</span>
                       </div>
                       <div className="flex justify-between">
                         <span className="text-gray-500">Platform Fee (15%)</span>
@@ -163,8 +163,8 @@ export default function Earnings() {
                         <span className="text-gray-400">₱0</span>
                       </div>
                       <div className="border-t border-gray-100 pt-1.5 flex justify-between">
-                        <span className="text-[#2C3E50] font-bold">Net Earnings</span>
-                        <span className="text-[#2ECC71] font-black text-sm">{formatPeso(net)}</span>
+                        <span className="text-[#0F172A] font-bold">Net Earnings</span>
+                        <span className="text-[#10B981] font-black text-sm">{formatPeso(net)}</span>
                       </div>
                     </div>
                   </div>
@@ -177,8 +177,8 @@ export default function Earnings() {
         {/* Payout history */}
         <div>
           <div className="flex items-center gap-2 mb-3">
-            <Calendar size={16} className="text-[#2ECC71]" />
-            <h2 className="text-[#2C3E50] text-sm font-bold uppercase tracking-wide">Payout History</h2>
+            <Calendar size={16} className="text-[#10B981]" />
+            <h2 className="text-[#0F172A] text-sm font-bold uppercase tracking-wide">Payout History</h2>
           </div>
           <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
             {demoPayouts.map((payout, idx) => (
@@ -193,7 +193,7 @@ export default function Earnings() {
                     <Download size={15} className="text-gray-400" />
                   </div>
                   <div>
-                    <p className="text-[#2C3E50] font-semibold text-sm">{payout.date}</p>
+                    <p className="text-[#0F172A] font-semibold text-sm">{payout.date}</p>
                     <span className={`inline-block text-[10px] font-bold px-2 py-0.5 rounded-full mt-0.5 ${
                       payout.status === 'Paid'
                         ? 'bg-emerald-50 text-emerald-600'
@@ -203,7 +203,7 @@ export default function Earnings() {
                     </span>
                   </div>
                 </div>
-                <p className={`font-bold text-sm ${payout.status === 'Paid' ? 'text-[#2ECC71]' : 'text-gray-500'}`}>
+                <p className={`font-bold text-sm ${payout.status === 'Paid' ? 'text-[#10B981]' : 'text-gray-500'}`}>
                   {formatPeso(payout.amount)}
                 </p>
               </div>

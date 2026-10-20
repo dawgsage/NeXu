@@ -22,10 +22,10 @@ type Props = {
 };
 
 const roleIcon: Record<Role, ReactNode> = {
-  admin: <Shield size={16} className="text-[#2ECC71]" />,
-  developer: <Code2 size={16} className="text-[#2ECC71]" />,
-  customer: <ShoppingBag size={16} className="text-[#2ECC71]" />,
-  rider: <Bike size={16} className="text-[#2ECC71]" />,
+  admin: <Shield size={16} className="text-[#10B981]" />,
+  developer: <Code2 size={16} className="text-[#10B981]" />,
+  customer: <ShoppingBag size={16} className="text-[#10B981]" />,
+  rider: <Bike size={16} className="text-[#10B981]" />,
 };
 
 const roleLabel: Record<Role, string> = {
@@ -44,7 +44,7 @@ export default function SidebarLayout({ role, navItems, activeId, onNavigate, on
       <div className="flex items-center gap-2.5 px-5 py-5 border-b border-gray-200">
         <NexuLogo size={36} />
         <div className="flex-1 min-w-0">
-          <p className="text-[#2C3E50] font-bold text-sm">NeXu Dashboard</p>
+          <p className="text-[#0F172A] font-bold text-sm">NeXu Dashboard</p>
           <div className="flex items-center gap-1.5">
             {roleIcon[role]}
             <span className="text-gray-500 text-xs">{roleLabel[role]}</span>
@@ -58,7 +58,7 @@ export default function SidebarLayout({ role, navItems, activeId, onNavigate, on
             key={item.id}
             onClick={() => { onNavigate(item.id); setMobileOpen(false); }}
             className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors ${
-              activeId === item.id ? 'bg-[#2ECC71] text-white' : 'text-gray-500 hover:bg-gray-100'
+              activeId === item.id ? 'bg-[#10B981] text-white' : 'text-gray-500 hover:bg-gray-100'
             }`}
           >
             {item.icon}
@@ -74,7 +74,7 @@ export default function SidebarLayout({ role, navItems, activeId, onNavigate, on
               key={l}
               onClick={() => setLang(l)}
               className={`flex-1 text-xs font-medium py-1.5 rounded-lg transition-colors ${
-                lang === l ? 'bg-[#2ECC71] text-white' : 'text-gray-500'
+                lang === l ? 'bg-[#10B981] text-white' : 'text-gray-500'
               }`}
             >
               {l === 'en' ? 'English' : 'Tagalog'}
@@ -93,7 +93,7 @@ export default function SidebarLayout({ role, navItems, activeId, onNavigate, on
   );
 
   return (
-    <div className="min-h-screen bg-[#F8F9FA] flex">
+    <div className="min-h-screen bg-[#F8FAFC] flex">
       {/* Desktop sidebar */}
       <aside className="hidden md:flex w-64 bg-white border-r border-gray-200 flex-col fixed inset-y-0 left-0 z-30">
         {sidebar}
@@ -116,12 +116,12 @@ export default function SidebarLayout({ role, navItems, activeId, onNavigate, on
       <div className="flex-1 md:ml-64 flex flex-col min-w-0">
         {/* Mobile top bar */}
         <div className="md:hidden bg-white border-b border-gray-200 flex items-center justify-between px-4 py-3 sticky top-0 z-20">
-          <button onClick={() => setMobileOpen(true)} className="text-[#2C3E50]">
+          <button onClick={() => setMobileOpen(true)} className="text-[#0F172A]">
             <Menu size={22} />
           </button>
           <div className="flex items-center gap-2">
             <NexuLogo size={24} />
-            <span className="text-[#2C3E50] font-bold text-sm">{roleLabel[role]}</span>
+            <span className="text-[#0F172A] font-bold text-sm">{roleLabel[role]}</span>
           </div>
           <div className="w-6" />
         </div>

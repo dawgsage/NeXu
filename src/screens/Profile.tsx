@@ -11,9 +11,9 @@ export default function Profile({ biometricEnabled, onToggleBiometric }: Props) 
   const [showSOS, setShowSOS] = useState(false);
 
   return (
-    <div className="flex flex-col h-full bg-[#F8F9FA]">
+    <div className="flex flex-col h-full bg-[#F8FAFC]">
       <div className="bg-white px-5 pt-12 pb-8 flex-shrink-0 border-b border-gray-100">
-        <h1 className="text-[#2C3E50] text-2xl font-bold">Profile</h1>
+        <h1 className="text-[#0F172A] text-2xl font-bold">Profile</h1>
         <p className="text-gray-400 text-sm mt-0.5">Account & settings</p>
       </div>
 
@@ -21,18 +21,18 @@ export default function Profile({ biometricEnabled, onToggleBiometric }: Props) 
         {/* Driver card */}
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 flex items-center gap-4">
           <div className="w-16 h-16 rounded-2xl bg-gray-100 flex items-center justify-center flex-shrink-0">
-            <User size={30} className="text-[#2ECC71]" />
+            <User size={30} className="text-[#10B981]" />
           </div>
           <div className="flex-1">
-            <p className="text-[#2C3E50] text-lg font-bold">NeXu Driver</p>
+            <p className="text-[#0F172A] text-lg font-bold">NeXu Driver</p>
             <p className="text-gray-400 text-sm">driver@nexu.app</p>
             <div className="flex items-center gap-1.5 mt-1.5">
-              <Bike size={13} className="text-[#2ECC71]" />
+              <Bike size={13} className="text-[#10B981]" />
               <span className="text-gray-500 text-xs font-medium">All vehicle types</span>
             </div>
           </div>
           <div className="bg-emerald-50 border border-emerald-200 rounded-xl px-3 py-1.5 text-center">
-            <p className="text-[#2ECC71] text-xs font-bold">Online</p>
+            <p className="text-[#10B981] text-xs font-bold">Online</p>
           </div>
         </div>
 
@@ -45,14 +45,14 @@ export default function Profile({ biometricEnabled, onToggleBiometric }: Props) 
               className="w-full flex items-center gap-3 py-3"
             >
               <div className="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center flex-shrink-0">
-                <Fingerprint size={18} className="text-[#2ECC71]" />
+                <Fingerprint size={18} className="text-[#10B981]" />
               </div>
               <div className="flex-1 text-left">
-                <p className="text-[#2C3E50] font-semibold text-sm">Biometric Unlock</p>
+                <p className="text-[#0F172A] font-semibold text-sm">Biometric Unlock</p>
                 <p className="text-gray-400 text-xs">Require fingerprint / Face ID to open</p>
               </div>
               {biometricEnabled ? (
-                <ToggleRight size={32} className="text-[#2ECC71]" />
+                <ToggleRight size={32} className="text-[#10B981]" />
               ) : (
                 <ToggleLeft size={32} className="text-gray-300" />
               )}
@@ -72,7 +72,7 @@ export default function Profile({ biometricEnabled, onToggleBiometric }: Props) 
                 <Siren size={18} className="text-red-500" />
               </div>
               <div className="flex-1 text-left">
-                <p className="text-[#2C3E50] font-semibold text-sm">SOS Emergency</p>
+                <p className="text-[#0F172A] font-semibold text-sm">SOS Emergency</p>
                 <p className="text-gray-400 text-xs">Alert support & share location</p>
               </div>
             </button>
@@ -84,11 +84,11 @@ export default function Profile({ biometricEnabled, onToggleBiometric }: Props) 
           onClick={() => { window.location.hash = '#/admin'; }}
           className="w-full bg-white border border-gray-100 rounded-2xl shadow-sm p-4 flex items-center gap-3 active:opacity-90 transition-opacity"
         >
-          <div className="w-10 h-10 rounded-xl bg-[#2ECC71]/10 border border-[#2ECC71]/20 flex items-center justify-center flex-shrink-0">
-            <LayoutDashboard size={18} className="text-[#2ECC71]" />
+          <div className="w-10 h-10 rounded-xl bg-[#10B981]/10 border border-[#10B981]/20 flex items-center justify-center flex-shrink-0">
+            <LayoutDashboard size={18} className="text-[#10B981]" />
           </div>
           <div className="flex-1 text-left">
-            <p className="text-[#2C3E50] font-semibold text-sm">Admin Dashboard</p>
+            <p className="text-[#0F172A] font-semibold text-sm">Admin Dashboard</p>
             <p className="text-gray-400 text-xs">Manage orders, drivers & settings</p>
           </div>
           <ChevronRight size={18} className="text-gray-300" />
@@ -100,15 +100,15 @@ export default function Profile({ biometricEnabled, onToggleBiometric }: Props) 
           <div className="space-y-2.5">
             <div className="flex justify-between">
               <span className="text-gray-500 text-sm">App Version</span>
-              <span className="text-[#2C3E50] font-medium text-sm">NeXu 2.0.0</span>
+              <span className="text-[#0F172A] font-medium text-sm">NeXu 2.0.0</span>
             </div>
             <div className="flex justify-between">
               <span className="text-gray-500 text-sm">Region</span>
-              <span className="text-[#2C3E50] font-medium text-sm">Metro Manila · PH</span>
+              <span className="text-[#0F172A] font-medium text-sm">Metro Manila · PH</span>
             </div>
             <div className="flex justify-between">
               <span className="text-gray-500 text-sm">Support</span>
-              <span className="text-[#2ECC71] font-medium text-sm">support@nexu.app</span>
+              <span className="text-[#10B981] font-medium text-sm">support@nexu.app</span>
             </div>
           </div>
         </div>
@@ -141,10 +141,10 @@ function SOSSheet({ onClose }: { onClose: () => void }) {
             <div className="w-16 h-16 rounded-full bg-red-50 flex items-center justify-center mx-auto mb-3 animate-pulse">
               <Siren size={30} className="text-red-500" />
             </div>
-            <h3 className="text-[#2C3E50] font-bold text-lg">SOS Alert Sent</h3>
+            <h3 className="text-[#0F172A] font-bold text-lg">SOS Alert Sent</h3>
             <p className="text-gray-400 text-sm mt-1 mb-1">NeXu support has been notified.</p>
             <p className="text-gray-400 text-xs">Stay safe. Help is on the way.</p>
-            <button onClick={onClose} className="mt-5 bg-[#2ECC71] text-white font-medium px-6 py-2.5 rounded-xl">Close</button>
+            <button onClick={onClose} className="mt-5 bg-gradient-to-r from-[#10B981] to-[#059669] hover:scale-[1.02] active:scale-95 text-white font-bold tracking-wide px-6 py-2.5 rounded-full shadow-lg shadow-[#10B981]/30 transition-all duration-200">Close</button>
           </div>
         ) : (
           <>
@@ -162,7 +162,7 @@ function SOSSheet({ onClose }: { onClose: () => void }) {
                   <Phone size={18} className="text-red-500" />
                 </div>
                 <div className="flex-1">
-                  <p className="text-[#2C3E50] font-semibold text-sm">Call Emergency Services</p>
+                  <p className="text-[#0F172A] font-semibold text-sm">Call Emergency Services</p>
                   <p className="text-gray-400 text-xs">117 — Philippines National Hotline</p>
                 </div>
               </a>

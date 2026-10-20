@@ -58,7 +58,7 @@ export default function OfferDetails({ order, onBack, onAccepted }: Props) {
   const isScheduled = !!order.scheduled_time;
 
   return (
-    <div className="flex flex-col h-full bg-[#F8F9FA]">
+    <div className="flex flex-col h-full bg-[#F8FAFC]">
       <div className="bg-white px-5 pt-12 pb-5 flex-shrink-0 border-b border-gray-100">
         <button onClick={onBack} className="flex items-center gap-2 text-gray-500 mb-4 active:opacity-70">
           <ArrowLeft size={18} />
@@ -66,7 +66,7 @@ export default function OfferDetails({ order, onBack, onAccepted }: Props) {
         </button>
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-[#2C3E50] text-xl font-bold">Offer Details</h2>
+            <h2 className="text-[#0F172A] text-xl font-bold">Offer Details</h2>
             <p className="text-gray-400 text-sm mt-0.5">Review before accepting</p>
           </div>
           {isScheduled && (
@@ -80,19 +80,19 @@ export default function OfferDetails({ order, onBack, onAccepted }: Props) {
 
       <div className="flex-1 overflow-y-auto px-4 py-4 space-y-4">
         {/* Fare hero */}
-        <div className="bg-[#2ECC71]/5 border border-[#2ECC71]/20 rounded-2xl p-5 flex items-center justify-between">
+        <div className="bg-[#10B981]/5 border border-[#10B981]/20 rounded-2xl p-5 flex items-center justify-between">
           <div>
             <p className="text-gray-400 text-xs font-medium tracking-wide uppercase mb-1">Total Estimated Payable</p>
-            <p className="text-[#2ECC71] text-4xl font-black">{formatPeso(total)}</p>
+            <p className="text-[#10B981] text-4xl font-black">{formatPeso(total)}</p>
             <div className="flex items-center gap-1.5 mt-1.5">
-          <Clock size={12} className="text-[#2ECC71]" />
-          <span className="text-[#2ECC71] text-xs font-bold">Est. {Math.max(15, Math.round(order.distance * 4))} mins</span>
+          <Clock size={12} className="text-[#10B981]" />
+          <span className="text-[#10B981] text-xs font-bold">Est. {Math.max(15, Math.round(order.distance * 4))} mins</span>
         </div>
         <p className="text-gray-400 text-xs mt-1">≈ ₱{perKm}/km</p>
           </div>
           <div className="bg-white border border-gray-100 rounded-xl px-4 py-2 text-center">
             <p className="text-gray-400 text-xs font-medium">Total Distance</p>
-            <p className="text-[#2C3E50] text-2xl font-bold">{order.distance}</p>
+            <p className="text-[#0F172A] text-2xl font-bold">{order.distance}</p>
             <p className="text-gray-400 text-xs">km</p>
             <div className="mt-1.5 pt-1.5 border-t border-gray-50 space-y-0.5">
               <p className="text-gray-500 text-[10px]">{(order.distance * 0.3).toFixed(1)} km → Store</p>
@@ -103,51 +103,51 @@ export default function OfferDetails({ order, onBack, onAccepted }: Props) {
 
         {/* Cost breakdown (F1) */}
         <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
-          <h3 className="text-[#2C3E50] text-sm font-bold uppercase tracking-wide mb-3 flex items-center gap-2">
-            <Receipt size={15} className="text-[#2ECC71]" />
+          <h3 className="text-[#0F172A] text-sm font-bold uppercase tracking-wide mb-3 flex items-center gap-2">
+            <Receipt size={15} className="text-[#10B981]" />
             Cost Breakdown
           </h3>
           <div className="space-y-2.5">
             <div className="flex justify-between items-center">
               <span className="text-gray-500 text-sm">Base Fare</span>
-              <span className="text-[#2C3E50] font-semibold">{formatPeso(baseFare)}</span>
+              <span className="text-[#0F172A] font-semibold">{formatPeso(baseFare)}</span>
             </div>
             <div className="flex justify-between items-center">
               <span className="text-gray-500 text-sm">Toll / Skyway Fees</span>
-              <span className="text-[#2C3E50] font-semibold">{formatPeso(toll)}</span>
+              <span className="text-[#0F172A] font-semibold">{formatPeso(toll)}</span>
             </div>
             <div className="border-t border-gray-100 pt-2.5 flex justify-between items-center">
-              <span className="text-[#2C3E50] font-bold text-sm">Total Payable</span>
-              <span className="text-[#2ECC71] font-black text-lg">{formatPeso(total)}</span>
+              <span className="text-[#0F172A] font-bold text-sm">Total Payable</span>
+              <span className="text-[#10B981] font-black text-lg">{formatPeso(total)}</span>
             </div>
           </div>
         </div>
 
         {/* Route */}
         <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
-          <h3 className="text-[#2C3E50] text-sm font-bold uppercase tracking-wide mb-4 flex items-center gap-2">
-            <Route size={15} className="text-[#2ECC71]" />
+          <h3 className="text-[#0F172A] text-sm font-bold uppercase tracking-wide mb-4 flex items-center gap-2">
+            <Route size={15} className="text-[#10B981]" />
             Route
           </h3>
           <div className="space-y-3">
             <div className="flex items-start gap-3">
-              <div className="w-9 h-9 rounded-full bg-emerald-50 border-2 border-[#2ECC71] flex items-center justify-center flex-shrink-0">
-                <MapPin size={15} className="text-[#2ECC71]" />
+              <div className="w-9 h-9 rounded-full bg-emerald-50 border-2 border-[#10B981] flex items-center justify-center flex-shrink-0">
+                <MapPin size={15} className="text-[#10B981]" />
               </div>
               <div className="flex-1 pt-1">
                 <p className="text-gray-400 text-xs font-medium uppercase tracking-wide">Pickup</p>
-                <p className="text-[#2C3E50] text-sm font-semibold">{order.pickup}</p>
+                <p className="text-[#0F172A] text-sm font-semibold">{order.pickup}</p>
                 {order.pickup_lat && <p className="text-gray-400 text-xs mt-0.5">{order.pickup_lat}, {order.pickup_lng}</p>}
               </div>
             </div>
             <div className="ml-4 w-px h-6 bg-gray-200" />
             <div className="flex items-start gap-3">
-              <div className="w-9 h-9 rounded-full bg-gray-50 border-2 border-[#2C3E50] flex items-center justify-center flex-shrink-0">
-                <Navigation size={15} className="text-[#2C3E50]" />
+              <div className="w-9 h-9 rounded-full bg-gray-50 border-2 border-[#0F172A] flex items-center justify-center flex-shrink-0">
+                <Navigation size={15} className="text-[#0F172A]" />
               </div>
               <div className="flex-1 pt-1">
                 <p className="text-gray-400 text-xs font-medium uppercase tracking-wide">Dropoff</p>
-                <p className="text-[#2C3E50] text-sm font-semibold">{order.dropoff}</p>
+                <p className="text-[#0F172A] text-sm font-semibold">{order.dropoff}</p>
                 {order.dropoff_lat && <p className="text-gray-400 text-xs mt-0.5">{order.dropoff_lat}, {order.dropoff_lng}</p>}
               </div>
             </div>
@@ -156,18 +156,18 @@ export default function OfferDetails({ order, onBack, onAccepted }: Props) {
 
         {/* Vehicle + tags */}
         <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
-          <h3 className="text-[#2C3E50] text-sm font-bold uppercase tracking-wide mb-3 flex items-center gap-2">
-            <CheckCircle2 size={15} className="text-[#2ECC71]" />
+          <h3 className="text-[#0F172A] text-sm font-bold uppercase tracking-wide mb-3 flex items-center gap-2">
+            <CheckCircle2 size={15} className="text-[#10B981]" />
             Requirements
           </h3>
           <div className="flex items-center gap-2 flex-wrap">
             <div className="bg-emerald-50 border border-emerald-200 rounded-xl px-3 py-2">
               <p className="text-gray-400 text-[10px]">Vehicle</p>
-              <p className="text-[#2C3E50] font-bold text-sm">{order.vehicle_type}</p>
+              <p className="text-[#0F172A] font-bold text-sm">{order.vehicle_type}</p>
             </div>
             <div className="bg-slate-50 border border-slate-200 rounded-xl px-3 py-2">
               <p className="text-gray-400 text-[10px]">Category</p>
-              <p className="text-[#2C3E50] font-bold text-sm">{order.category}</p>
+              <p className="text-[#0F172A] font-bold text-sm">{order.category}</p>
             </div>
             {order.multi_store && (
               <div className="bg-fuchsia-50 border border-fuchsia-200 rounded-xl px-3 py-2 flex items-center gap-1">
@@ -188,8 +188,8 @@ export default function OfferDetails({ order, onBack, onAccepted }: Props) {
 
         {/* Payment methods (F3) */}
         <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
-          <h3 className="text-[#2C3E50] text-sm font-bold uppercase tracking-wide mb-3 flex items-center gap-2">
-            <CreditCard size={15} className="text-[#2ECC71]" />
+          <h3 className="text-[#0F172A] text-sm font-bold uppercase tracking-wide mb-3 flex items-center gap-2">
+            <CreditCard size={15} className="text-[#10B981]" />
             Accepted Payment
           </h3>
           <div className="flex items-center gap-2 flex-wrap">
@@ -252,7 +252,7 @@ export default function OfferDetails({ order, onBack, onAccepted }: Props) {
         <button
           onClick={handleAccept}
           disabled={accepting}
-          className="w-full bg-[#2ECC71] active:bg-emerald-600 disabled:opacity-60 text-white font-bold text-lg py-4 rounded-2xl shadow-lg shadow-emerald-200 flex items-center justify-center gap-2 transition-all"
+          className="w-full bg-gradient-to-r from-[#10B981] to-[#059669] hover:scale-[1.02] active:scale-95 disabled:opacity-60 text-white font-bold tracking-wide text-lg py-4 rounded-full shadow-lg shadow-[#10B981]/30 flex items-center justify-center gap-2 transition-all duration-200"
         >
           {accepting ? (
             <><Loader2 size={20} className="animate-spin" />Accepting...</>

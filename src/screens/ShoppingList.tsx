@@ -5,7 +5,7 @@ import {
 } from 'lucide-react';
 import { type Order, formatPeso, totalPayable } from '@/lib/supabase';
 import {
-  fetchShoppingItems, markItemScanned, markItemWithProof,
+  fetchShoppingItems, markItemScanned, markItemWithProof, markItemDemoScanned,
   uploadProofPhoto, fetchOpenFoodFacts, type ShoppingItem,
 } from '@/lib/shopping';
 import BarcodeScanner from '@/components/BarcodeScanner';
@@ -58,6 +58,21 @@ export default function ShoppingList({ order, onComplete, onBack }: Props) {
     setVerifying(false);
   };
 
+  const handleDemoScan = async () => {
+    if (!scannerItem) return;
+    const item = scannerItem;
+    setScannerItem(null);
+    setVerifying(true);
+    try {
+      await markItemDemoScanned(item.id, item.item_name);
+      setItems(prev => prev.map(it => it.id === item.id ? { ...it, is_scanned: true, item_name: `${it.item_name} [Verified via Demo]` } : it));
+      setToast('Item verified! (Demo mode)');
+    } catch {
+      setError('Failed to simulate scan. Try again.');
+    }
+    setVerifying(false);
+  };
+
   const handlePhotoCapture = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file || !photoItemRef.current) return;
@@ -79,7 +94,7 @@ export default function ShoppingList({ order, onComplete, onBack }: Props) {
   const allScanned = items.length > 0 && items.every(i => i.is_scanned);
 
   return (
-    <div className="flex flex-col h-full bg-[#F8F9FA]">
+    <div className="flex flex-col h-full bg-[#F8FAFC]">
       {/* Header */}
       <div className="bg-white px-5 pt-12 pb-5 flex-shrink-0 border-b border-gray-100">
         <button onClick={onBack} className="flex items-center gap-2 text-gray-500 mb-4 active:opacity-70">
@@ -87,13 +102,13 @@ export default function ShoppingList({ order, onComplete, onBack }: Props) {
           <span className="text-sm font-medium">Back</span>
         </button>
         <div className="flex items-center gap-2 mb-3">
-          <ShoppingCart size={20} className="text-[#2ECC71]" />
-          <h1 className="text-[#2C3E50] text-xl font-bold">Shop & Deliver</h1>
+          <ShoppingCart size={20} className="text-[#10B981]" />
+          <h1 className="text-[#0F172A] text-xl font-bold">Shop & Deliver</h1>
         </div>
         <div className="bg-gray-50 rounded-xl px-4 py-2.5 border border-gray-100">
           <div className="flex items-center gap-1.5 mb-1">
-            <MapPin size={11} className="text-[#2ECC71]" />
-            <p className="text-[#2C3E50] text-sm font-semibold truncate">{order.pickup}</p>
+            <MapPin size={11} className="text-[#10B981]" />
+            <p className="text-[#0F172A] text-sm font-semibold truncate">{order.pickup}</p>
           </div>
           <div className="flex items-center gap-1.5">
             <Navigation size={11} className="text-gray-400" />
@@ -104,7 +119,7 @@ export default function ShoppingList({ order, onComplete, onBack }: Props) {
           <span className="text-gray-400 text-xs">
             {items.filter(i => i.is_scanned).length} / {items.length} items scanned
           </span>
-          <span className="text-[#2ECC71] text-sm font-bold">{formatPeso(totalPayable(order))}</span>
+          <span className="text-[#10B981] text-sm font-bold">{formatPeso(totalPayable(order))}</span>
         </div>
       </div>
 
@@ -112,14 +127,14 @@ export default function ShoppingList({ order, onComplete, onBack }: Props) {
       <div className="flex-1 overflow-y-auto px-4 py-4 space-y-3">
         {loading ? (
           <div className="flex flex-col items-center justify-center h-40 gap-3">
-            <Loader2 size={26} className="text-[#2ECC71] animate-spin" />
+            <Loader2 size={26} className="text-[#10B981] animate-spin" />
             <p className="text-gray-400 text-sm">Loading shopping list...</p>
           </div>
         ) : error ? (
           <div className="flex flex-col items-center justify-center h-40 gap-2 text-center">
             <AlertCircle size={28} className="text-red-400" />
             <p className="text-red-500 font-medium text-sm">{error}</p>
-            <button onClick={load} className="text-[#2ECC71] text-sm font-medium">Retry</button>
+            <button onClick={load} className="text-[#10B981] text-sm font-medium">Retry</button>
           </div>
         ) : items.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-48 gap-3 text-center">
@@ -147,7 +162,7 @@ export default function ShoppingList({ order, onComplete, onBack }: Props) {
         <div className="bg-white border-t border-gray-100 px-4 py-4 flex-shrink-0">
           <button
             onClick={onComplete}
-            className="w-full bg-[#2ECC71] active:bg-emerald-600 text-white font-bold text-lg py-4 rounded-2xl shadow-lg shadow-emerald-200 flex items-center justify-center gap-2 transition-all"
+            className="w-full bg-[#10B981] active:bg-emerald-600 text-white font-bold text-lg py-4 rounded-2xl shadow-lg shadow-emerald-200 flex items-center justify-center gap-2 transition-all"
           >
             <CheckCircle2 size={20} />
             All Items Scanned — Continue
@@ -158,8 +173,8 @@ export default function ShoppingList({ order, onComplete, onBack }: Props) {
       {verifying && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
           <div className="bg-white rounded-2xl px-6 py-5 flex items-center gap-3">
-            <Loader2 size={22} className="text-[#2ECC71] animate-spin" />
-            <span className="text-[#2C3E50] font-medium text-sm">Verifying...</span>
+            <Loader2 size={22} className="text-[#10B981] animate-spin" />
+            <span className="text-[#0F172A] font-medium text-sm">Verifying...</span>
           </div>
         </div>
       )}
@@ -169,6 +184,7 @@ export default function ShoppingList({ order, onComplete, onBack }: Props) {
           expectedBarcode={scannerItem.barcode}
           onScan={handleBarcodeScan}
           onClose={() => setScannerItem(null)}
+          onDemoScan={handleDemoScan}
         />
       )}
 
@@ -202,11 +218,11 @@ function ItemCard({
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 mb-1">
             {item.is_scanned ? (
-              <CheckCircle2 size={16} className="text-[#2ECC71] flex-shrink-0" />
+              <CheckCircle2 size={16} className="text-[#10B981] flex-shrink-0" />
             ) : (
               <Package size={16} className="text-gray-400 flex-shrink-0" />
             )}
-            <p className={`font-semibold text-sm truncate ${item.is_scanned ? 'text-[#2C3E50]' : 'text-gray-700'}`}>
+            <p className={`font-semibold text-sm truncate ${item.is_scanned ? 'text-[#0F172A]' : 'text-gray-700'}`}>
               {item.item_name}
             </p>
           </div>
@@ -215,7 +231,7 @@ function ItemCard({
           )}
           {product && (
             <div className="ml-6 mt-1.5 flex items-center gap-1.5">
-              <span className="text-[#2ECC71] text-xs font-medium">{product.name}</span>
+              <span className="text-[#10B981] text-xs font-medium">{product.name}</span>
               {product.brand && <span className="text-gray-400 text-xs">· {product.brand}</span>}
             </div>
           )}
@@ -226,7 +242,7 @@ function ItemCard({
           )}
         </div>
         {item.is_scanned ? (
-          <span className="bg-emerald-50 text-[#2ECC71] text-xs font-bold px-2.5 py-1 rounded-full border border-emerald-200 flex-shrink-0">
+          <span className="bg-emerald-50 text-[#10B981] text-xs font-bold px-2.5 py-1 rounded-full border border-emerald-200 flex-shrink-0">
             Done
           </span>
         ) : (
@@ -240,13 +256,13 @@ function ItemCard({
         <div className="flex gap-2">
           <button
             onClick={onScan}
-            className="flex-1 bg-[#2C3E50] active:bg-slate-700 text-white text-xs font-bold py-2.5 rounded-xl flex items-center justify-center gap-1.5"
+            className="flex-1 bg-[#0F172A] active:bg-slate-700 text-white text-xs font-bold py-2.5 rounded-xl flex items-center justify-center gap-1.5"
           >
             <ScanLine size={14} /> Scan Barcode
           </button>
           <button
             onClick={onPhoto}
-            className="flex-1 bg-white border border-gray-200 active:bg-gray-50 text-[#2C3E50] text-xs font-bold py-2.5 rounded-xl flex items-center justify-center gap-1.5"
+            className="flex-1 bg-white border border-gray-200 active:bg-gray-50 text-[#0F172A] text-xs font-bold py-2.5 rounded-xl flex items-center justify-center gap-1.5"
           >
             <Camera size={14} /> Take Photo
           </button>

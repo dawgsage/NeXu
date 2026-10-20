@@ -36,32 +36,32 @@ export default function HistoryScreen() {
   }, [fetchHistory]);
 
   return (
-    <div className="flex flex-col h-full bg-[#F8F9FA]">
+    <div className="flex flex-col h-full bg-[#F8FAFC]">
       <div className="bg-white px-5 pt-12 pb-5 flex-shrink-0 border-b border-gray-100">
         <div className="flex items-center gap-2 mb-3">
-          <History size={20} className="text-[#2ECC71]" />
-          <h1 className="text-[#2C3E50] text-2xl font-bold">Delivery History</h1>
+          <History size={20} className="text-[#10B981]" />
+          <h1 className="text-[#0F172A] text-2xl font-bold">Delivery History</h1>
         </div>
         <div className="bg-gray-50 rounded-2xl px-4 py-3 flex items-center justify-between border border-gray-100">
           <div className="flex items-center gap-2">
-            <Wallet size={16} className="text-[#2ECC71]" />
+            <Wallet size={16} className="text-[#10B981]" />
             <span className="text-gray-500 text-sm">Total Earnings</span>
           </div>
-          <span className="text-[#2ECC71] text-xl font-bold">{formatPeso(earnings)}</span>
+          <span className="text-[#10B981] text-xl font-bold">{formatPeso(earnings)}</span>
         </div>
       </div>
 
       <div className="flex-1 overflow-y-auto px-4 py-3 space-y-3">
         {loading ? (
           <div className="flex flex-col items-center justify-center h-40 gap-3">
-            <RefreshCw size={24} className="text-[#2ECC71] animate-spin" />
+            <RefreshCw size={24} className="text-[#10B981] animate-spin" />
             <p className="text-gray-400 text-sm">Loading history...</p>
           </div>
         ) : error ? (
           <div className="flex flex-col items-center justify-center h-40 gap-2 text-center">
             <p className="text-red-500 font-medium text-sm">Couldn't load history</p>
             <p className="text-gray-400 text-xs">{error}</p>
-            <button onClick={fetchHistory} className="text-[#2ECC71] text-sm font-medium">Retry</button>
+            <button onClick={fetchHistory} className="text-[#10B981] text-sm font-medium">Retry</button>
           </div>
         ) : orders.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-48 gap-3 text-center">
@@ -77,22 +77,22 @@ export default function HistoryScreen() {
               <div className="flex items-start justify-between gap-3 mb-2">
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-1.5 mb-1.5">
-                    <CheckCircle2 size={14} className="text-[#2ECC71]" />
-                    <span className="text-[#2ECC71] text-xs font-bold uppercase tracking-wide">Delivered</span>
+                    <CheckCircle2 size={14} className="text-[#10B981]" />
+                    <span className="text-[#10B981] text-xs font-bold uppercase tracking-wide">Delivered</span>
                     <span className="text-gray-300 text-xs">·</span>
                     <span className="text-gray-400 text-xs">{order.category}</span>
                   </div>
                   <div className="flex items-center gap-1.5 mb-1">
-                    <MapPin size={11} className="text-[#2ECC71] flex-shrink-0" />
+                    <MapPin size={11} className="text-[#10B981] flex-shrink-0" />
                     <p className="text-gray-700 text-sm font-semibold truncate">{order.pickup}</p>
                   </div>
                   <div className="flex items-center gap-1.5">
-                    <Navigation size={11} className="text-[#2C3E50] flex-shrink-0" />
+                    <Navigation size={11} className="text-[#0F172A] flex-shrink-0" />
                     <p className="text-gray-500 text-sm truncate">{order.dropoff}</p>
                   </div>
                 </div>
                 <div className="text-right flex-shrink-0">
-                  <p className="text-[#2ECC71] text-xl font-black">{formatPeso(totalPayable(order))}</p>
+                  <p className="text-[#10B981] text-xl font-black">{formatPeso(totalPayable(order))}</p>
                   <p className="text-gray-400 text-xs">{order.distance} km</p>
                 </div>
               </div>
@@ -130,16 +130,16 @@ function HistoryReportSheet({ order, onClose }: { order: Order; onClose: () => v
         {sent ? (
           <div className="text-center py-6">
             <div className="w-14 h-14 rounded-full bg-emerald-50 flex items-center justify-center mx-auto mb-3">
-              <CheckCircle2 size={28} className="text-[#2ECC71]" />
+              <CheckCircle2 size={28} className="text-[#10B981]" />
             </div>
-            <h3 className="text-[#2C3E50] font-bold text-lg">Report Submitted</h3>
+            <h3 className="text-[#0F172A] font-bold text-lg">Report Submitted</h3>
             <p className="text-gray-400 text-sm mt-1">Support will contact you shortly.</p>
-            <button onClick={onClose} className="mt-5 bg-[#2ECC71] text-white font-medium px-6 py-2.5 rounded-xl">Close</button>
+            <button onClick={onClose} className="mt-5 bg-gradient-to-r from-[#10B981] to-[#059669] hover:scale-[1.02] active:scale-95 text-white font-bold tracking-wide px-6 py-2.5 rounded-full shadow-lg shadow-[#10B981]/30 transition-all duration-200">Close</button>
           </div>
         ) : (
           <>
             <div className="flex items-center justify-between mb-1">
-              <h3 className="text-[#2C3E50] font-bold text-lg flex items-center gap-2">
+              <h3 className="text-[#0F172A] font-bold text-lg flex items-center gap-2">
                 <AlertTriangle size={18} className="text-amber-500" />
                 Report an Issue
               </h3>
@@ -152,7 +152,7 @@ function HistoryReportSheet({ order, onClose }: { order: Order; onClose: () => v
                   key={r}
                   onClick={() => setReason(r)}
                   className={`w-full text-left px-4 py-3 rounded-xl border text-sm font-medium transition-colors ${
-                    reason === r ? 'bg-[#2ECC71] text-white border-[#2ECC71]' : 'bg-gray-50 text-gray-700 border-gray-200'
+                    reason === r ? 'bg-[#10B981] text-white border-[#10B981]' : 'bg-gray-50 text-gray-700 border-gray-200'
                   }`}
                 >
                   {r}
@@ -162,7 +162,7 @@ function HistoryReportSheet({ order, onClose }: { order: Order; onClose: () => v
             <button
               onClick={() => reason && setSent(true)}
               disabled={!reason}
-              className="w-full bg-[#2ECC71] disabled:opacity-40 text-white font-bold py-3.5 rounded-2xl"
+              className="w-full bg-gradient-to-r from-[#10B981] to-[#059669] hover:scale-[1.02] active:scale-95 disabled:opacity-40 text-white font-bold tracking-wide py-3.5 rounded-full shadow-lg shadow-[#10B981]/30 transition-all duration-200"
             >
               Submit Report
             </button>

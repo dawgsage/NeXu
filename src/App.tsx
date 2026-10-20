@@ -133,7 +133,7 @@ function AppInner() {
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-900">
       <div
-        className="relative bg-[#F8F9FA] overflow-hidden shadow-2xl flex flex-col"
+        className="relative bg-[#F8FAFC] overflow-hidden shadow-2xl flex flex-col"
         style={{ width: '100%', maxWidth: '430px', height: '100dvh', maxHeight: '932px' }}
       >
         <div className="flex-1 overflow-hidden flex flex-col min-h-0">

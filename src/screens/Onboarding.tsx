@@ -66,7 +66,7 @@ export default function Onboarding({ onComplete }: Props) {
   const slide = slides[index];
 
   return (
-    <div className="min-h-screen bg-white flex flex-col max-w-md mx-auto" onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
+    <div className="min-h-screen bg-[#F8FAFC] flex flex-col max-w-md mx-auto" onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
       {/* Skip button */}
       <div className="flex justify-end px-5 pt-14 pb-2 flex-shrink-0">
         <button onClick={onComplete} className="text-gray-400 text-sm font-medium active:opacity-70">
@@ -89,7 +89,7 @@ export default function Onboarding({ onComplete }: Props) {
         </div>
 
         {/* Text */}
-        <h2 className="text-[#2C3E50] text-2xl font-black text-center tracking-tight mb-3 leading-snug">
+        <h2 className="text-[#0F172A] text-2xl font-black text-center tracking-tight mb-3 leading-snug">
           {slide.title}
         </h2>
         <p className="text-gray-500 text-base text-center leading-relaxed max-w-xs">
@@ -105,7 +105,7 @@ export default function Onboarding({ onComplete }: Props) {
               key={i}
               onClick={() => setIndex(i)}
               className={`h-2 rounded-full transition-all ${
-                i === index ? 'w-8 bg-[#2ECC71]' : 'w-2 bg-gray-200'
+                i === index ? 'w-8 bg-[#10B981]' : 'w-2 bg-gray-200'
               }`}
               aria-label={`Slide ${i + 1}`}
             />
@@ -123,7 +123,7 @@ export default function Onboarding({ onComplete }: Props) {
           )}
           <button
             onClick={goNext}
-            className="flex-1 bg-[#2ECC71] active:bg-emerald-600 text-white font-bold text-lg py-4 rounded-2xl shadow-lg shadow-emerald-100 flex items-center justify-center gap-2 transition-all"
+            className="flex-1 bg-gradient-to-r from-[#10B981] to-[#059669] hover:scale-[1.02] active:scale-95 text-white font-bold tracking-wide text-lg py-4 rounded-full shadow-lg shadow-[#10B981]/30 flex items-center justify-center gap-2 transition-all duration-200"
           >
             {isLast ? 'Get Started' : 'Next'}
             <ChevronRight size={20} />

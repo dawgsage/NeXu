@@ -28,6 +28,14 @@ export async function markItemScanned(itemId: string): Promise<void> {
   if (error) throw error;
 }
 
+export async function markItemDemoScanned(itemId: string, currentName: string): Promise<void> {
+  const { error } = await supabase
+    .from('shopping_list')
+    .update({ is_scanned: true, item_name: `${currentName} [Verified via Demo]` })
+    .eq('id', itemId);
+  if (error) throw error;
+}
+
 export async function markItemWithProof(itemId: string, imageUrl: string): Promise<void> {
   const { error } = await supabase
     .from('shopping_list')

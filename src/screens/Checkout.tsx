@@ -59,12 +59,12 @@ export default function Checkout({ onBack, onSuccess }: Props) {
   };
 
   return (
-    <div className="flex flex-col h-full bg-[#F8F9FA]">
+    <div className="flex flex-col h-full bg-[#F8FAFC]">
       <div className="bg-white px-5 pt-12 pb-5 flex-shrink-0 border-b border-gray-100">
         <button onClick={onBack} className="flex items-center gap-2 text-gray-500 mb-3 active:opacity-70">
           <ArrowLeft size={18} /><span className="text-sm font-medium">Back to Cart</span>
         </button>
-        <h1 className="text-[#2C3E50] text-2xl font-bold">Checkout</h1>
+        <h1 className="text-[#0F172A] text-2xl font-bold">Checkout</h1>
         <p className="text-gray-400 text-sm mt-0.5">Review and place your order</p>
       </div>
 
@@ -77,8 +77,8 @@ export default function Checkout({ onBack, onSuccess }: Props) {
 
         <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-4">
           <div className="flex items-center gap-2 mb-3">
-            <Store size={15} className="text-[#2ECC71]" />
-            <h3 className="text-[#2C3E50] text-sm font-bold">Order From</h3>
+            <Store size={15} className="text-[#10B981]" />
+            <h3 className="text-[#0F172A] text-sm font-bold">Order From</h3>
           </div>
           <p className="text-gray-600 text-sm">{merchantName}</p>
           <div className="mt-3 space-y-1.5">
@@ -93,20 +93,20 @@ export default function Checkout({ onBack, onSuccess }: Props) {
 
         <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-4">
           <div className="flex items-center gap-2 mb-3">
-            <MapPin size={15} className="text-[#2ECC71]" />
-            <h3 className="text-[#2C3E50] text-sm font-bold">Delivery Address</h3>
+            <MapPin size={15} className="text-[#10B981]" />
+            <h3 className="text-[#0F172A] text-sm font-bold">Delivery Address</h3>
           </div>
           <textarea
             value={address}
             onChange={e => setAddress(e.target.value)}
             placeholder="Street, barangay, city (e.g. 123 Rizal St, Poblacion, Makati)"
             rows={3}
-            className="w-full bg-gray-50 border border-gray-100 rounded-xl px-4 py-3 text-sm text-[#2C3E50] placeholder-gray-400 focus:outline-none focus:border-[#2ECC71] resize-none"
+            className="w-full bg-gray-50 border border-gray-100 rounded-xl px-4 py-3 text-sm text-[#0F172A] placeholder-gray-400 focus:outline-none focus:border-[#10B981] resize-none"
           />
         </div>
 
         <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-4">
-          <h3 className="text-[#2C3E50] text-sm font-bold mb-3">Payment Method</h3>
+          <h3 className="text-[#0F172A] text-sm font-bold mb-3">Payment Method</h3>
           <div className="space-y-2">
             {paymentOptions.map(opt => (
               <button
@@ -127,15 +127,15 @@ export default function Checkout({ onBack, onSuccess }: Props) {
         <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 space-y-2.5">
           <div className="flex justify-between">
             <span className="text-gray-500 text-sm">Subtotal</span>
-            <span className="text-[#2C3E50] font-semibold text-sm">₱{subtotal.toLocaleString()}</span>
+            <span className="text-[#0F172A] font-semibold text-sm">₱{subtotal.toLocaleString()}</span>
           </div>
           <div className="flex justify-between">
             <span className="text-gray-500 text-sm">Delivery Fee</span>
-            <span className="text-[#2C3E50] font-semibold text-sm">₱{DELIVERY_FEE}</span>
+            <span className="text-[#0F172A] font-semibold text-sm">₱{DELIVERY_FEE}</span>
           </div>
           <div className="border-t border-gray-100 pt-2.5 flex justify-between">
-            <span className="text-[#2C3E50] font-bold">Total</span>
-            <span className="text-[#2ECC71] font-black text-lg">₱{total.toLocaleString()}</span>
+            <span className="text-[#0F172A] font-bold">Total</span>
+            <span className="text-[#10B981] font-black text-lg">₱{total.toLocaleString()}</span>
           </div>
         </div>
       </div>
@@ -144,7 +144,7 @@ export default function Checkout({ onBack, onSuccess }: Props) {
         <button
           onClick={handlePlaceOrder}
           disabled={placing || lines.length === 0}
-          className="w-full bg-[#2ECC71] active:bg-emerald-600 disabled:opacity-60 text-white font-bold text-lg py-4 rounded-2xl shadow-lg shadow-emerald-200 flex items-center justify-center gap-2 transition-all"
+          className="w-full bg-gradient-to-r from-[#10B981] to-[#059669] hover:scale-[1.02] active:scale-95 disabled:opacity-60 text-white font-bold tracking-wide text-lg py-4 rounded-full shadow-lg shadow-[#10B981]/30 flex items-center justify-center gap-2 transition-all duration-200"
         >
           {placing ? (
             <><Loader2 size={20} className="animate-spin" />Placing Order...</>
