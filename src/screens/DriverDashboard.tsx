@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import {
   Wallet, TrendingUp, Package, Bike, Power, ChevronRight, Clock,
+  AlertTriangle, X,
 } from 'lucide-react';
 import { supabase, formatPeso } from '@/lib/supabase';
 import NexuLogo from '@/components/NexuLogo';
@@ -15,6 +16,7 @@ export default function DriverDashboard({ isOnline, onToggleOnline, onGoToJobs }
   const [todayEarnings, setTodayEarnings] = useState(0);
   const [completedJobs, setCompletedJobs] = useState(0);
   const [activeJobs, setActiveJobs] = useState(0);
+  const [showOfflineConfirm, setShowOfflineConfirm] = useState(false);
 
   const loadStats = useCallback(async () => {
     const today = new Date();
@@ -57,7 +59,7 @@ export default function DriverDashboard({ isOnline, onToggleOnline, onGoToJobs }
       <div className="flex-1 overflow-y-auto px-4 py-4 space-y-4">
         {/* Online/Offline toggle */}
         <button
-          onClick={onToggleOnline}
+          onClick={() => isOnline ? setShowOfflineConfirm(true) : onToggleOnline()}
           className={`w-full rounded-2xl p-5 flex items-center justify-between transition-all duration-200 ${
             isOnline
               ? 'bg-gradient-to-r from-[#10B981] to-[#059669] text-white shadow-lg shadow-[#10B981]/30'
@@ -146,6 +148,34 @@ export default function DriverDashboard({ isOnline, onToggleOnline, onGoToJobs }
           </div>
         )}
       </div>
+
+      {showOfflineConfirm && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center px-6">
+          <div className="bg-white rounded-2xl p-6 max-w-sm w-full">
+            <div className="w-12 h-12 rounded-full bg-amber-50 flex items-center justify-center mx-auto mb-4">
+              <AlertTriangle size={24} className="text-amber-500" />
+            </div>
+            <h3 className="text-[#0F172A] font-bold text-lg text-center mb-2">Go Offline?</h3>
+            <p className="text-gray-500 text-sm text-center mb-5">
+              You won't receive orders while offline. You can go back online anytime.
+            </p>
+            <div className="flex gap-3">
+              <button
+                onClick={() => setShowOfflineConfirm(false)}
+                className="flex-1 bg-gray-100 text-gray-700 font-bold tracking-wide py-3 rounded-full text-sm active:bg-gray-200 transition-all duration-200 min-h-[44px]"
+              >
+                Stay Online
+              </button>
+              <button
+                onClick={() => { setShowOfflineConfirm(false); onToggleOnline(); }}
+                className="flex-1 bg-gradient-to-r from-[#10B981] to-[#059669] hover:scale-[1.02] active:scale-95 text-white font-bold tracking-wide py-3 rounded-full text-sm shadow-lg shadow-[#10B981]/30 transition-all duration-200 min-h-[44px]"
+              >
+                Go Offline
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

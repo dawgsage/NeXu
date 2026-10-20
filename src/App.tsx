@@ -8,6 +8,7 @@ import HistoryScreen from '@/screens/History';
 import Profile from '@/screens/Profile';
 import Login from '@/screens/Login';
 import ShoppingList from '@/screens/ShoppingList';
+import CustomerHome from '@/screens/CustomerHome';
 import MerchantMenu from '@/screens/MerchantMenu';
 import Landing, { type Role } from '@/screens/Landing';
 import Onboarding from '@/screens/Onboarding';
@@ -189,7 +190,10 @@ function AppInner() {
 
           {/* Customer screens */}
           {screen === 'customer-home' && (
-            <MerchantMenu onBack={() => { setScreen('customer-home'); setCustomerTab('home'); }} />
+            <CustomerHome
+              onOpenMerchant={() => { setCustomerTab('explore'); setScreen('merchants'); }}
+              onBrowseAll={() => { setCustomerTab('explore'); setScreen('merchants'); }}
+            />
           )}
 
           {screen === 'merchants' && (

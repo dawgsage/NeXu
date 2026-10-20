@@ -82,10 +82,18 @@ export default function Cart({ onBack, onCheckout, onBrowse }: Props) {
       </div>
 
       {lines.length > 0 && (
-        <div className="bg-white border-t border-gray-100 px-4 py-4 flex-shrink-0 space-y-3">
+        <div className="bg-white border-t border-gray-100 px-4 py-4 flex-shrink-0 space-y-2.5">
           <div className="flex items-center justify-between">
             <span className="text-gray-500 text-sm">Subtotal</span>
-            <span className="text-[#0F172A] font-bold text-lg">₱{subtotal.toLocaleString()}</span>
+            <span className="text-[#0F172A] font-semibold text-sm">₱{subtotal.toLocaleString()}</span>
+          </div>
+          <div className="flex items-center justify-between">
+            <span className="text-gray-500 text-sm">Delivery Fee</span>
+            <span className="text-[#0F172A] font-semibold text-sm">₱49</span>
+          </div>
+          <div className="flex items-center justify-between border-t border-gray-100 pt-2.5">
+            <span className="text-[#0F172A] font-bold text-sm">Total</span>
+            <span className="text-[#10B981] font-black text-lg">₱{(subtotal + 49).toLocaleString()}</span>
           </div>
           <button
             onClick={onCheckout}

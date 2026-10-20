@@ -159,10 +159,21 @@ function OrdersTab() {
 
 function StatusDropdown({ current, updating, onChange }: { current: string; updating: boolean; onChange: (s: string) => void }) {
   const [open, setOpen] = useState(false);
+  const [confirmCancel, setConfirmCancel] = useState(false);
+
+  const handleSelect = (s: string) => {
+    if (s === 'Cancelled') {
+      setConfirmCancel(true);
+      return;
+    }
+    onChange(s);
+    setOpen(false);
+  };
+
   return (
     <div className="relative">
       <button onClick={() => setOpen(v => !v)} disabled={updating}
-        className="flex items-center gap-1.5 text-xs font-medium text-gray-600 bg-gray-50 border border-gray-200 px-2.5 py-1.5 rounded-lg hover:bg-gray-100 disabled:opacity-50">
+        className="flex items-center gap-1.5 text-xs font-medium text-gray-600 bg-gray-50 border border-gray-200 px-2.5 py-1.5 rounded-lg hover:bg-gray-100 disabled:opacity-50 min-h-[36px]">
         {updating ? 'Updating...' : 'Change'}
         {!updating && <ChevronDown size={12} className={`transition-transform ${open ? 'rotate-180' : ''}`} />}
       </button>
@@ -171,13 +182,40 @@ function StatusDropdown({ current, updating, onChange }: { current: string; upda
           <div className="fixed inset-0 z-10" onClick={() => setOpen(false)} />
           <div className="absolute right-0 top-full mt-1 bg-white border border-gray-100 rounded-xl shadow-xl z-20 overflow-hidden min-w-[140px]">
             {ORDER_STATUSES.map(s => (
-              <button key={s} onClick={() => { onChange(s); setOpen(false); }}
-                className={`w-full text-left px-3 py-2 text-xs font-medium flex items-center justify-between hover:bg-gray-50 ${s === current ? 'text-[#10B981]' : 'text-gray-700'}`}>
+              <button key={s} onClick={() => handleSelect(s)}
+                className={`w-full text-left px-3 py-2.5 text-xs font-medium flex items-center justify-between hover:bg-gray-50 ${s === current ? 'text-[#10B981]' : 'text-gray-700'}`}>
                 {s}{s === current && <Check size={12} />}
               </button>
             ))}
           </div>
         </>
+      )}
+      {confirmCancel && (
+        <div className="fixed inset-0 bg-black/50 z-[60] flex items-center justify-center px-6">
+          <div className="bg-white rounded-2xl p-6 max-w-sm w-full">
+            <div className="w-12 h-12 rounded-full bg-red-50 flex items-center justify-center mx-auto mb-4">
+              <AlertCircle size={24} className="text-red-500" />
+            </div>
+            <h3 className="text-[#0F172A] font-bold text-lg text-center mb-2">Cancel this order?</h3>
+            <p className="text-gray-500 text-sm text-center mb-5">
+              This action cannot be undone. The driver will be notified that the order is cancelled.
+            </p>
+            <div className="flex gap-3">
+              <button
+                onClick={() => setConfirmCancel(false)}
+                className="flex-1 bg-gray-100 text-gray-700 font-semibold py-3 rounded-xl text-sm active:bg-gray-200 min-h-[44px]"
+              >
+                Keep Order
+              </button>
+              <button
+                onClick={() => { onChange('Cancelled'); setConfirmCancel(false); setOpen(false); }}
+                className="flex-1 bg-red-500 active:bg-red-600 text-white font-bold py-3 rounded-xl text-sm min-h-[44px]"
+              >
+                Cancel Order
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );
